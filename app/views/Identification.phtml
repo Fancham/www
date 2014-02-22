@@ -1,0 +1,20 @@
+<h1>Accès aux pages privées</h1>
+<p class="paragraphe_center">Veuillez vous identifier pour accéder aux pages privées</p>
+<div class="inscription_center">
+	<form action="<?php echo Atomik::url('Identification'); ?>" method="post">
+		<p>
+			<div id="txt_Pseudo_cnx">Pseudo</div><input id="Pseudo_cnx" type="text" name="login"/><br />
+			<div id="txt_Password_cnx">Mot de passe</div><input id="Password_cnx" type="password" name="password" /><br />
+			<input id="Envoi_cnx" type="submit" value="Valider" /><br />
+			<?php 
+				if (!empty($status))
+				{
+					echo $status;
+				}
+			?>
+		</p>
+	</form>
+</div>
+<p class="paragraphe_center">Si vous n'êtes pas inscrit sur le site, vous pouvez vous inscrire 
+	<a href="<?php echo Atomik::url('Inscription'); ?>" class="LientexteAccesPriveIci">ici.</a>
+</p>

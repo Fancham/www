@@ -1,0 +1,316 @@
+<?php
+	
+	//Initialisation des variables
+	$fd="FamilleD";
+	$fo="FamilleO";
+	$ao="AmisO";
+	$ad="AmisD";
+	
+	
+	function Identification($pseudo,$mot_de_passe)
+	{
+		$RepVIns=VerifInscription($pseudo,$mot_de_passe);
+		if ($RepVIns=='OK')
+		{
+			$login=$pseudo;
+			$password=$mot_de_passe;
+			$bdd=Connex();
+			
+			//Vérification si c'est un membre de la famille Deschamps
+			$sqlFD='SELECT count( 1 ) AS count FROM Users WHERE Pseudo = :pseudo AND Password = :password AND Demande=0 and Type= :fd';
+			$RFD=$bdd->prepare($sqlFD);
+			$RFD->execute(array(':pseudo' => ''. $login .'', ':password' => ''. $password.'', ':fd' => ''. $fd.''));
+			$DonneesFD=$RFD->fetch();
+			
+			//Vérification si c'est un membre de la famille Ostanciaux
+			$sqlFO='SELECT count( 1 ) AS count FROM Users WHERE Pseudo = :pseudo AND Password = :password AND Demande=0 and Type= :fo';
+			$RFO=$bdd->prepare($sqlFO);
+			$RFO->execute(array(':pseudo' => ''. $login .'', ':password' => ''. $password.'', ':fo' => ''. $fo.''));
+			$DonneesFO=$RFO->fetch();
+			
+			//Vérification si c'est un membre des Amis de Milie
+			$sqlAO='SELECT count( 1 ) AS count FROM Users WHERE Pseudo = :pseudo AND Password = :password AND Demande=0 and Type= :ao';
+			$RAO=$bdd->prepare($sqlAO);
+			$RAO->execute(array(':pseudo' => ''. $login .'', ':password' => ''. $password.'', ':ao' => ''. $ao.''));
+			$DonneesAO=$RAO->fetch();
+			
+			//Vérification si c'est un membre des Amis de Fancham
+			$sqlAD='SELECT count( 1 ) AS count FROM Users WHERE Pseudo = :pseudo AND Password = :password AND Demande=0 and Type= :ad';
+			$RAD=$bdd->prepare($sqlAD);
+			$RAD->execute(array(':pseudo' => ''. $login .'', ':password' => ''. $password.'', ':ad' => ''. $ad.''));
+			$DonneesAD=$RAD->fetch();
+			
+			ConnexKO($bdd);
+						
+			if ($DonneesFD['count']==1 )
+			{
+				$reponse='FD';
+			}
+			elseif ($DonneesFO['count']==1 )
+			{
+				$reponse='FO';
+			}
+			elseif ($DonneesAO['count']==1 )
+			{
+				$reponse='AO';
+			}
+			elseif ($DonneesAD['count']==1 )
+			{
+				$reponse='AD';
+			}
+			else
+			{
+				$reponse='NOK';
+			}
+			return $reponse;
+		}
+		else
+		{
+			return 'KO';
+		}
+	}
+	
+	function VerifInscription($pseudo,$mot_de_passe)
+	{
+		$R=0;
+		$login=$pseudo;
+		$password=$mot_de_passe;
+		$bdd=Connex();
+		
+		$sql='SELECT count( 1 ) AS count FROM Users WHERE Pseudo = :pseudo AND Password = :password';
+		$R=$bdd->prepare($sql);
+		$R->execute(array(':pseudo' => ''. $login .'', ':password' => ''. $password.''));
+		$Donnees=$R->fetch();		
+		
+		ConnexKO($bdd);
+					
+		if ($Donnees['count']==1 )
+		{
+			
+			$sqlnbcon='SELECT NbConnex, DernierConnex, AvantDerConnex  FROM Users WHERE Pseudo = :pseudo AND Password = :password AND Demande=0';
+			$RFD=$bdd->prepare($sqlnbcon);
+			$RFD->execute(array(':pseudo' => ''. $login .'', ':password' => ''. $password.''));
+			$DonneesNb=$RFD->fetch();
+			if (($DonneesNb['NbConnex'])==0)
+			{
+				$sqlupNb='UPDATE Users SET DernierConnex=Now(), NbConnex=1 WHERE Pseudo = :pseudo AND Password = :password AND Demande=0';
+				$RNb=$bdd->prepare($sqlupNb);
+				$RNb->execute(array(':pseudo' => ''. $login .'', ':password' => ''. $password.''));
+			}
+			else
+			{
+				$DonneesNb['NbConnex']=$DonneesNb['NbConnex']+1;
+				$DonneesNb['AvantDerConnex']=$DonneesNb['DernierConnex'];
+				$sqlupNb='UPDATE Users SET DernierConnex=Now(), AvantDerConnex=:AvantDerConnex, NbConnex=:NbConnex WHERE Pseudo = :pseudo AND Password = :password AND Demande=0';
+				$RNb=$bdd->prepare($sqlupNb);
+				$RNb->execute(array(':AvantDerConnex' => ''. $DonneesNb['AvantDerConnex'] .'',':NbConnex' => ''. $DonneesNb['NbConnex'] .'',':pseudo' => ''. $login .'', ':password' => ''. $password.''));
+			}				
+			$reponse='OK';
+		}
+		else
+		{
+			$reponse='KO';
+		}
+		return $reponse;
+	}
+	
+	function Inscription($nom,$prenom,$pseudo,$motDePasse,$mail)
+	{
+		try
+		{
+			$Rep=VerifInscription($pseudo,$motDePasse);
+			
+			if ($Rep=='KO')
+			{
+				$bdd=Connex();
+
+				$sql='INSERT INTO Users (Nom,Prenom,Pseudo,Password,Mail,Demande) VALUES(:nom, :prenom, :pseudo, :motDePasse, :mail, 1)';
+				$R=$bdd->prepare($sql);
+				$R->execute(array(':nom' => ''. $nom .'', ':prenom' => ''. $prenom .'',':pseudo' => ''. $pseudo .'',':motDePasse' => ''. $motDePasse .'',':mail' => ''. $mail .''));	
+				
+				ConnexKO($bdd);
+							
+				return true;
+			}
+			else
+			{
+				return false;
+			}
+		}
+		catch (Exception $e)
+		{
+			die('Erreur:' . $e-> getMessage());
+		}
+	}
+	
+	function Connex()
+	{
+		try
+		{
+			$bdd = new PDO('mysql:host=db408182877.db.1and1.com;dbname=db408182877','dbo408182877','*213182LUNE2*');
+			
+			return $bdd;
+		}
+		catch (Exception $e)
+		{
+			die('Erreur:' . $e-> getMessage());
+		}
+	}
+	
+	function ConnexKO($bdd)
+	{
+		$bdd=null;
+	}
+	
+	function RecupNomPrenom($pseudo)
+	{
+		$bdd=Connex();
+		
+		$sql='SELECT Nom, Prenom FROM Users WHERE pseudo = :pseudo';
+		$R=$bdd->prepare($sql);
+		$R->execute(array(':pseudo' => ''. $pseudo .''));
+		$Donnees=$R->fetch();		
+		$nomPrenom=$Donnees['Nom'].' '.$Donnees['Prenom'];
+		return $nomPrenom;
+		ConnexKO($bdd);
+	}
+	
+	// Menu Liste Genre dans la page de sélection des BD
+	function ListeGenreBD()
+	{
+		try
+		{
+			$bdd=Connex();
+			$sql='SELECT DISTINCT Genre FROM Livres';
+			$R=$bdd->query($sql);
+			
+			ConnexKO($bdd);
+			return $R;
+		}
+		catch (Exception $e)
+		{
+			die('Erreur:' . $e-> getMessage());
+		}
+	}
+	
+	// Menu Liste Type dans la page de sélection des BD
+	function ListeTypeBD()
+	{
+		try
+		{
+			$bdd=Connex();
+			$sql='SELECT DISTINCT Type FROM Livres';
+			$R=$bdd->query($sql);
+			
+			ConnexKO($bdd);
+			return $R;
+		}
+		catch (Exception $e)
+		{
+			die('Erreur:' . $e-> getMessage());
+		}
+	}
+	
+	// Menu Liste Lecteur dans la page de sélection des BD
+	function ListeLecteurBD()
+	{
+		try
+		{
+			$bdd=Connex();
+			$sql='SELECT DISTINCT Lecteur FROM Livres';
+			$R=$bdd->query($sql);
+			
+			ConnexKO($bdd);
+							                                                                                                                                      
+			return $R;
+		}
+		catch (Exception $e)
+		{
+			die('Erreur:' . $e-> getMessage());
+		}
+	}
+	
+	function ListeBDRecherche($genre)
+	{
+		try
+		{
+			$bdd=Connex();
+			$sql='SELECT count( 1 ) AS count FROM Livres WHERE genre = :genre';
+			$R=$bdd->prepare($sql);
+			$R->execute(array(':genre' => ''. $genre .''));
+			ConnexKO($bdd);
+							                                                                                                                                      
+			return $R;
+		}
+		catch (Exception $e)
+		{
+			die('Erreur:' . $e-> getMessage());
+		}
+	}
+	function ListeBDRechercheTout()
+	{
+		try
+		{
+			$bdd=Connex();
+			$sql='SELECT count( 1 ) AS count FROM Livres';
+			$R=$bdd->query($sql);
+			ConnexKO($bdd);
+			return $R;
+		}
+		catch (Exception $e)
+		{
+			die('Erreur:' . $e-> getMessage());
+		}
+	}
+	
+	// Recherche toutes les références BD avec comme critère de recherche Genre='Tous'
+	function ListeBDRechercheToutLimite($debut,$limite)
+	{
+		try
+		{
+			$debut=intval($debut);
+			$limite=intval($limite);
+			$bdd=Connex();
+			$sql='SELECT * FROM Livres LIMIT :debut, :limite';
+			$R=$bdd->prepare($sql);
+			$R->bindParam(':debut', $debut, PDO::PARAM_INT);
+			$R->bindParam(':limite', $limite, PDO::PARAM_INT);
+			$R->execute();
+			ConnexKO($bdd);
+			
+			return $R;
+		}
+		catch (Exception $e)
+		{
+			die('Erreur:' . $e-> getMessage());
+		}
+	}
+	
+	// Recherche toutes les références BD avec comme critère de recherche Genre='Tous' et Lecteur est renseigné
+	function ListeBDRechercheLimite($genre,$type,$lecteur,$debut,$limite)
+	{
+		try
+		{
+			$debut=intval($debut);
+			$limite=intval($limite);
+			$genre='%'. $genre .'%';
+			$type='%'. $type .'%';
+			$lecteur='%'. $lecteur .'%';
+			$bdd=Connex();
+			$sql='SELECT * FROM Livres WHERE lecteur like :lecteur OR type like :type OR genre like :genre LIMIT :debut, :limite';
+			$R=$bdd->prepare($sql);
+			$R->bindParam(':lecteur', $lecteur, PDO::PARAM_STR);
+			$R->bindParam(':type', $type, PDO::PARAM_STR);
+			$R->bindParam(':genre', $genre, PDO::PARAM_STR);
+			$R->bindParam(':debut', $debut, PDO::PARAM_INT);
+			$R->bindParam(':limite', $limite, PDO::PARAM_INT);
+			$R->execute();
+			ConnexKO($bdd);
+			return $R;
+		}
+		catch (Exception $e)
+		{
+			die('Erreur:' . $e-> getMessage());
+		}
+	}
+?>

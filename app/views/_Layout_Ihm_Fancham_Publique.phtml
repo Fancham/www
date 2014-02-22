@@ -1,0 +1,56 @@
+<?php
+	// Chargement des parametres
+	$Path_CMN_Banniere='app/views/CMN/CMN_Banniere.php';
+	$Path_CMN_Compteur='app/views/CMN/CMN_Compteur.php';
+	$Path_CMN_Menu='app/views/CMN/CMN_Menu_Publique.php';
+	$Path_CMN_Pied_de_page='app/views/CMN/CMN_Pied_de_page.php';
+	
+?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="fr">
+	<head>
+		<title>François Deschamps</title>
+		<meta http-equiv="Content-Type" content="text/html;charset=iso-8859-1"/>
+		<link rel="stylesheet" media="screen" type="text/css" title="Mon style" href="<?php echo $this->asset('assets/css/Style.css') ?>"/>
+	</head>
+
+	<!-- En-tête -->
+
+<body>
+    
+	<!-- Bannière -->
+	<?php include($Path_CMN_Banniere); 
+	
+	//<!-- Corps de texte -->
+	//<!-- Menu -->
+	include($Path_CMN_Menu) ;
+			
+	//<!-- Compteur visiteurs -->
+	include($Path_CMN_Compteur) ;
+        
+    ?>
+	<!-- Fin du Compteur visiteurs -->
+			<p id="sign">
+				
+			</P>
+
+	<!-- Texte principal -->
+		<div id="Corps_de_texte">
+			 <?php echo $contentForLayout; 
+                    if(isset($msg)) {
+                        echo $msg;
+                    }
+                    if(isset($otherview)) {
+                        echo $otherview;
+                    }
+             ?>
+		<!-- Pied de page -->	
+			<?php include($Path_CMN_Pied_de_page) ?>
+		</div>
+
+	</div>
+</body>
+
+</HTML>

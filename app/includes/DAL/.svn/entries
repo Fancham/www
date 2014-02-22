@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wc-entries
+   xmlns="svn:">
+<entry
+   committed-rev="2"
+   name=""
+   committed-date="2014-02-06T23:08:48.777616Z"
+   url="https://subversion.assembla.com/svn/fancham/trunk/DAL"
+   last-author="Fancham"
+   kind="dir"
+   repos="https://subversion.assembla.com/svn/fancham"
+   revision="2"/>
+<entry
+   committed-rev="8"
+   name="DAL_Identification.php"
+   text-time="2014-02-19T00:22:12.311866Z"
+   committed-date="2014-02-19T00:41:42.621649Z"
+   checksum="885596849420f26e5296d3cabecda105"
+   last-author="Fancham"
+   kind="file"
+   revision="8"/>
+<entry
+   name="DAL.php"
+   kind="file"
+   deleted="true"
+   revision="4"/>
+</wc-entries>

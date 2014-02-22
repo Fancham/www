@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wc-entries
+   xmlns="svn:">
+<entry
+   committed-rev="2"
+   name=""
+   committed-date="2014-02-06T23:08:48.777616Z"
+   url="https://subversion.assembla.com/svn/fancham/trunk/BL"
+   last-author="Fancham"
+   kind="dir"
+   repos="https://subversion.assembla.com/svn/fancham"
+   revision="2"/>
+<entry
+   name="Identification.php"
+   kind="file"
+   deleted="true"
+   revision="4"/>
+<entry
+   committed-rev="8"
+   name="BL_EmissionReception.php"
+   text-time="2014-02-18T23:39:01.772732Z"
+   committed-date="2014-02-19T00:41:42.621649Z"
+   checksum="6d6bd7f7670c037d050ae4e5b45fb32a"
+   last-author="Fancham"
+   kind="file"
+   revision="8"/>
+<entry
+   name="EmissionReception.php"
+   kind="file"
+   deleted="true"
+   revision="6"/>
+<entry
+   committed-rev="8"
+   name="BL_Identification.php"
+   text-time="2014-02-18T23:37:15.153595Z"
+   committed-date="2014-02-19T00:41:42.621649Z"
+   checksum="ec85a13412fb26e14c978def08dc1f64"
+   last-author="Fancham"
+   kind="file"
+   revision="8"/>
+<entry
+   committed-rev="8"
+   name="Recherche.php"
+   text-time="2014-02-18T21:46:07.628259Z"
+   committed-date="2014-02-19T00:41:42.621649Z"
+   checksum="d5ba9031e1208070c56ee8deeabe962c"
+   last-author="Fancham"
+   kind="file"
+   revision="8"/>
+</wc-entries>

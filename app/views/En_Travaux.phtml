@@ -1,0 +1,17 @@
+<h1>PAGE EN TRAVAUX!</h1>
+<h2>PAGE EN TRAVAUX!</h2>
+<p class="texte_prems">Bonjour 
+	<?php 
+	if (!empty($_SESSION['Surnom']))
+	{
+		$Surnom=$_SESSION['Surnom'];
+	}else
+	{
+		$Surnom='';
+	}
+	echo $Surnom;
+	?> ! 
+	</br>
+	</br>
+	Cette Page est en travaux! Merci de revenir plus tard.
+</p>

@@ -1,0 +1,214 @@
+<?php
+
+	// Chargement des paramètres
+	Atomik::needed('CMN/Parametres');
+	
+	class DAL_Identification
+	{
+		//Initialisation des variables
+		Private $fd="FamilleD";
+		Private $fo="FamilleO";
+		Private $ao="AmisO";
+		Private $ad="AmisD";
+		
+		function Identification($pseudo,$mot_de_passe)
+		{
+			//Vérification que le visiteur est déjà inscrit
+			$RepVIns=DAL_Identification::VerifInscription($pseudo,$mot_de_passe);
+			
+			if ($RepVIns=='OK')
+			{
+				$login=$pseudo;
+				$password=$mot_de_passe;
+				
+				//Ouverture de la connexion à la BDD
+				$bdd=DAL_Identification::Connex();
+				
+				//Vérification si c'est un membre de la famille Deschamps
+				$sqlFD='SELECT count( 1 ) AS count FROM Users WHERE Pseudo = :pseudo AND Password = :password AND Demande=0 and Type= :fd';
+				$RFD=$bdd->prepare($sqlFD);
+				$RFD->execute(array(':pseudo' => ''. $login .'', ':password' => ''. $password.'', ':fd' => ''. $fd.''));
+				$DonneesFD=$RFD->fetch();
+				
+				//Vérification si c'est un membre de la famille Ostanciaux
+				$sqlFO='SELECT count( 1 ) AS count FROM Users WHERE Pseudo = :pseudo AND Password = :password AND Demande=0 and Type= :fo';
+				$RFO=$bdd->prepare($sqlFO);
+				$RFO->execute(array(':pseudo' => ''. $login .'', ':password' => ''. $password.'', ':fo' => ''. $fo.''));
+				$DonneesFO=$RFO->fetch();
+				
+				//Vérification si c'est un membre des Amis de Milie
+				$sqlAO='SELECT count( 1 ) AS count FROM Users WHERE Pseudo = :pseudo AND Password = :password AND Demande=0 and Type= :ao';
+				$RAO=$bdd->prepare($sqlAO);
+				$RAO->execute(array(':pseudo' => ''. $login .'', ':password' => ''. $password.'', ':ao' => ''. $ao.''));
+				$DonneesAO=$RAO->fetch();
+				
+				//Vérification si c'est un membre des Amis de Fancham
+				$sqlAD='SELECT count( 1 ) AS count FROM Users WHERE Pseudo = :pseudo AND Password = :password AND Demande=0 and Type= :ad';
+				$RAD=$bdd->prepare($sqlAD);
+				$RAD->execute(array(':pseudo' => ''. $login .'', ':password' => ''. $password.'', ':ad' => ''. $ad.''));
+				$DonneesAD=$RAD->fetch();
+				
+				//Fermeture de la connexion à la BDD
+				DAL_Identification::ConnexKO($bdd);
+							
+				if ($DonneesFD['count']==1 )
+				{
+					$reponse='FD';
+				}
+				elseif ($DonneesFO['count']==1 )
+				{
+					$reponse='FO';
+				}
+				elseif ($DonneesAO['count']==1 )
+				{
+					$reponse='AO';
+				}
+				elseif ($DonneesAD['count']==1 )
+				{
+					$reponse='AD';
+				}
+				else
+				{
+					$reponse='NOK';
+				}
+				return $reponse;
+			}
+			else
+			{
+				//Visiteur non enregistré
+				return 'KO';
+			}
+		}
+		
+		function VerifInscription($pseudo,$mot_de_passe)
+		{
+			try
+			{
+				$R=0;
+				$login=$pseudo;
+				$password=$mot_de_passe;
+				
+				//Ouverture de la connexion à la BDD
+				$bdd=DAL_Identification::Connex();
+				
+				//Vérification de la présence d'un enregistrement en base
+				$sql='SELECT count( 1 ) AS count FROM Users WHERE Pseudo = :pseudo AND Password = :password';
+				$R=$bdd->prepare($sql);
+				$R->execute(array(':pseudo' => ''. $login .'', ':password' => ''. $password.''));
+				$Donnees=$R->fetch();		
+				
+				//Fermeture de la connexion en BDD
+				DAL_Identification::ConnexKO($bdd);
+							
+				//Visiteur présent en BDD
+				if ($Donnees['count']==1 )
+				{
+					
+					//Rérucépération des données de connexion en BDD
+					$sqlnbcon='SELECT NbConnex, DernierConnex, AvantDerConnex  FROM Users WHERE Pseudo = :pseudo AND Password = :password AND Demande=0';
+					$RFD=$bdd->prepare($sqlnbcon);
+					$RFD->execute(array(':pseudo' => ''. $login .'', ':password' => ''. $password.''));
+					$DonneesNb=$RFD->fetch();
+					
+					//Si première fois que le visiteur se connecte, initialisation des données
+					if (($DonneesNb['NbConnex'])==0)
+					{
+						$sqlupNb='UPDATE Users SET DernierConnex=Now(), NbConnex=1 WHERE Pseudo = :pseudo AND Password = :password AND Demande=0';
+						$RNb=$bdd->prepare($sqlupNb);
+						$RNb->execute(array(':pseudo' => ''. $login .'', ':password' => ''. $password.''));
+					}
+					else
+					{
+						//Si visiteur s'est déjà connecté plus d'une fois, mise à jour des données en BDD
+						$DonneesNb['NbConnex']=$DonneesNb['NbConnex']+1;
+						$DonneesNb['AvantDerConnex']=$DonneesNb['DernierConnex'];
+						$sqlupNb='UPDATE Users SET DernierConnex=Now(), AvantDerConnex=:AvantDerConnex, NbConnex=:NbConnex WHERE Pseudo = :pseudo AND Password = :password AND Demande=0';
+						$RNb=$bdd->prepare($sqlupNb);
+						$RNb->execute(array(':AvantDerConnex' => ''. $DonneesNb['AvantDerConnex'] .'',':NbConnex' => ''. $DonneesNb['NbConnex'] .'',':pseudo' => ''. $login .'', ':password' => ''. $password.''));
+					}				
+					$reponse='OK';
+				}
+				else
+				{
+					//Visiteur absent en BDD
+					$reponse='KO';
+				}
+				return $reponse;
+			}
+			catch (Exception $e)
+			{
+				die('Erreur:' . $e-> getMessage());
+			}
+		}
+		
+		function Inscription($nom,$prenom,$pseudo,$motDePasse,$mail)
+		{
+			try
+			{
+				//Vérification de la présence en base du visiteur
+				$Rep=DAL_Identification::VerifInscription($pseudo,$motDePasse);
+				
+				//Visiteur absent en BDD donc il y a possibilité de l'inscrire
+				if ($Rep=='KO')
+				{
+					//Ouverture de la connexion en BDD
+					$bdd=DAL_Identification::Connex();
+	
+					//Insertion du nouveau visiteur en BDD
+					$sql='INSERT INTO Users (Nom,Prenom,Pseudo,Password,Mail,Demande) VALUES(:nom, :prenom, :pseudo, :motDePasse, :mail, 1)';
+					$R=$bdd->prepare($sql);
+					$R->execute(array(':nom' => ''. $nom .'', ':prenom' => ''. $prenom .'',':pseudo' => ''. $pseudo .'',':motDePasse' => ''. $motDePasse .'',':mail' => ''. $mail .''));	
+					
+					//Fermeture de la connexion enBDD
+					DAL_Identification::ConnexKO($bdd);
+								
+					return true;
+				}
+				else
+				{
+					//Visiteur déjà inscrit
+					return false;
+				}
+			}
+			catch (Exception $e)
+			{
+				die('Erreur:' . $e-> getMessage());
+			}
+		}
+		
+		function Connex()
+		{
+			try
+			{
+				$bdd = new PDO($_SESSION['BDD_Adresse'],$_SESSION['BDD_Login'],$_SESSION['BDD_Mot_de_Passe']);
+				
+				return $bdd;
+			}
+			catch (Exception $e)
+			{
+				die('Erreur:' . $e-> getMessage());
+			}
+		}
+		
+		function ConnexKO($bdd)
+		{
+			$bdd=null;
+		}
+		
+		function RecupNomPrenom($pseudo)
+		{
+			//Ouverture d'une connexion en BDD
+			$bdd=Connex();
+			
+			$sql='SELECT Nom, Prenom FROM Users WHERE pseudo = :pseudo';
+			$R=$bdd->prepare($sql);
+			$R->execute(array(':pseudo' => ''. $pseudo .''));
+			$Donnees=$R->fetch();		
+			$nomPrenom=$Donnees['Nom'].' '.$Donnees['Prenom'];
+			return $nomPrenom;
+			
+			//Fermeture de la connexion à la BDD
+			ConnexKO($bdd);
+		}
+	}
+?>

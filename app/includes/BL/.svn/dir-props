@@ -1,0 +1,10 @@
+K 10
+svn:ignore
+V 86
+
+._EmissionReception.php
+._Identification.php
+._Recherche.php
+Identification_save.php
+
+END

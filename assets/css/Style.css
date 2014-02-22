@@ -1,0 +1,643 @@
+/* Corps du site */
+
+body
+{
+	width: 1200px;
+	margin-left: auto;
+	margin-right: auto;
+	color: white;
+	background: url("../images/Fond.png");
+}
+
+
+
+.inscription_center
+{
+	width: 400px;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.paragraphe_center
+{
+	width: 420px;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+/* Propriétés des liens*/
+
+.LienMenu
+{
+	color: black;
+}
+
+a.Lienmenu:link
+{
+	color: black;
+	text-decoration:none;
+}
+
+a.Lienmenu:visited
+{
+	color: red;
+	text-decoration:none;
+}
+
+a.Lienmenu:hover
+{
+	color: white;
+	text-decoration:none;
+}
+
+a.LienMenuN2:link
+{
+	position: relative;
+	left: 15px;
+	font-size: 25px;
+	color: black;
+	text-decoration:none;
+}
+
+a.LienMenuN2:visited
+{
+	position: relative;
+	left: 15px;
+	font-size: 25px;
+	color: red;
+	text-decoration:none;
+}
+
+a.LienMenuN2:hover
+{
+	color: white;
+	text-decoration:none;
+}
+
+a.Lientexte:link,LientexteAccesPriveIci:link
+{
+	color: white;
+}
+
+a.Lientexte:visited,LientexteAccesPriveIci:visited
+{
+	color: orange;
+	text-decoration:none;
+}
+
+a.Lientexte:hover,LientexteAccesPriveIci:hover
+{
+	color: orange;
+}
+
+a.LientexteAccesPriveIci:link
+{
+	position: relative;
+	top: -36px;
+	left:570px;
+}
+
+/* En tête*/
+
+#Banniere
+{
+	position: absolute;
+	width: 575px;
+	height: 97px;
+	top: 100px;
+	margin-left: 414px;
+	background-image: url("../images/Banniere.png");
+	background-repeat: no-repeat;
+}
+
+h1
+{
+	text-indent: -50000px;
+}
+
+h2
+{
+	width: 705px;
+	text-align: left;
+	padding-left: 25px;
+	padding-right: 25px;
+	position: relative;
+	top: -50px;
+	font-size: large;
+}
+
+#txt_Pseudo_cnx
+{
+	position: relative;
+	top: 0px;
+	left: 56px;
+}
+
+#Pseudo_cnx
+{
+	position: relative;
+	top: -20px;
+	left: 110px;
+}
+
+#txt_Password_cnx
+{
+	position: relative;
+	top: -10px;
+	left: 18px;
+}
+
+#Password_cnx
+{
+	position: relative;
+	top: -30px;
+	left: 110px;
+}
+
+#Envoi_cnx
+{
+	position: relative;
+	top: -15px;
+	left: 186px;
+}
+
+#txt_Nom
+{
+	position: relative;
+	top: 0px;
+	left: 70px;
+}
+
+#Nom
+{
+	position: relative;
+	top: -20px;
+	left: 110px;
+}
+
+#txt_Prenom
+{
+	position: relative;
+	top: -10px;
+	left: 52px;
+}
+
+#Prenom
+{
+	position: relative;
+	top: -30px;
+	left: 110px;
+}
+
+#txt_Pseudo
+{
+	position: relative;
+	top: -20px;
+	left: 56px;
+}
+
+#Pseudo
+{
+	position: relative;
+	top: -40px;
+	left: 110px;
+}
+
+#txt_Password
+{
+	position: relative;
+	top: -30px;
+	left: 18px;
+}
+
+#Password
+{
+	position: relative;
+	top: -50px;
+	left: 110px;
+}
+
+#txt_Password_Conf
+{
+	position: relative;
+	top: -40px;
+	left: -69px;
+}
+
+#Password_Conf
+{
+	position: relative;
+	top: -60px;
+	left: 110px;
+}
+
+#txt_Mail
+{
+	position: relative;
+	top: -50px;
+	left: 72px;
+}
+
+#Mail
+{
+	position: relative;
+	top: -70px;
+	left: 110px;
+}
+
+#Envoi
+{
+	position: relative;
+	top: -55px;
+	left: 187px;
+}
+
+/* Temporaire */
+
+.reponse_ko
+{
+	position: relative;
+	top: -40px;
+	color: red;
+	font-weight: bold;
+}
+
+.reponse_ok
+{
+	position: relative;
+	top: 0px;
+	color: white;
+	font-weight: bold;
+}
+
+.reponse_nok
+{
+	position: relative;
+	top: 0px;
+	color: white;
+	font-weight: bold;
+}
+
+.reponse_cnx_ko
+{
+	position: relative;
+	top: 0px;
+	color: red;
+	font-weight: bold;
+}
+
+#en_tete
+{
+	height: 20px;
+	width: 67px;
+	position: absolute;
+	top: 0px;
+	left: -910px;
+}
+
+#navi1
+{
+	position: absolute;
+	height: 50px;
+	width: 49px;
+	top: 305px;
+	margin-left: 305px;
+	z-index:1001;
+}
+
+#navi2
+{
+	position: absolute;
+	height: 49px;
+	width: 49px;
+	top: 312px;
+	margin-left: 1074px;
+	z-index:1002;
+}
+
+#accueil1
+{
+	height: 36px;
+	width: 69px;
+	position: absolute;
+	top: 313px;
+	margin-left: 666px;
+	z-index:1003;
+}
+
+#accueil2
+{
+	height: 65px;
+	width: 758px;
+	position: absolute;
+	top: 305px;
+	margin-left: 300px;
+	z-index:10;
+}
+
+/* Menu*/
+
+#Menu
+{
+	width: 384px;
+	height: 856px;
+	background-image: url("../images/Fond_Tab.png");
+	background-repeat: no-repeat;
+	position: absolute;
+	top: 240px;
+}
+
+ul
+{
+	width: 190px;
+	text-align: left;
+	position: absolute;
+	top: 137px;
+	left: 120px;
+	list-style-type: none;
+	line-height: 27px;
+}
+
+#Profil
+{
+	width: 229px;
+	height: 40px;
+	position: absolute;
+	font-family: monotype corsiva;
+	font-size: 35px;
+	top: 236px;
+	margin-left: 153px;
+	z-index: 910;
+}
+
+#CV
+{
+	position: absolute;
+	font-family: monotype corsiva;
+	font-size: 35px;
+	top: 336px;
+	margin-left: 195px;
+	z-index: 900;
+}
+
+.MenuCV
+{
+	width: 230px;
+	height: 40px;
+	position: absolute;
+	top: 182px;
+	margin-left: 0px;
+	z-index: 905;
+}
+
+#Memoires
+{
+	position: absolute;
+	font-family: monotype corsiva;
+	font-size: 35px;
+	top: 436px;
+	margin-left: 220px;
+	z-index: 900;
+}
+
+.MenuMémoires
+{
+	width: 230px;
+	height: 40px;
+	position: absolute;
+	top: 282px;
+	margin-left: 0px;
+	z-index: 905;
+}
+
+#Loisirs
+{
+	position: absolute;
+	font-family: monotype corsiva;
+	font-size: 35px;
+	top: 536px;
+	margin-left: 215px;
+	z-index: 900;
+}
+
+.MenuLoisirs
+{
+	width: 230px;
+	height: 40px;
+	position: absolute;
+	top: 382px;
+	margin-left: 0px;
+	z-index: 905;
+}
+
+#Dessins
+{
+	position: absolute;
+	font-family: monotype corsiva;
+	font-size: 35px;
+	top: 636px;
+	margin-left: 200px;
+	z-index: 900;
+}
+
+.MenuDessins
+{
+	width: 230px;
+	height: 40px;
+	position: absolute;
+	top: 482px;
+	margin-left: 0px;
+	z-index: 905;
+}
+
+#Voyages
+{
+	width: 175px;
+	height: 40px;
+	position: absolute;
+	top: 500px;
+	font-family: monotype corsiva;
+	font-size: 35px;
+	top: 736px;
+	margin-left: 175px;
+	z-index: 900;
+}
+
+.MenuVoyages
+{
+	width: 230px;
+	height: 40px;
+	position: absolute;
+	top: 582px;
+	margin-left: 0px;
+	z-index: 905;
+}
+
+.MenuCV:hover, .MenuMémoires:hover, .MenuLoisirs:hover, .MenuDessins:hover, .MenuVoyages:hover, .MenuPrive:hover
+{
+	background-image: url("../images/FondMenu.png");
+	background-repeat: no-repeat;
+}
+
+ul ul
+{
+	display:none;
+	position: absolute;
+	width: 310px;
+	top: 0px;
+	margin: 0px;
+	padding-left: 0px;
+	margin-left: 105px;
+	background-color:orange;
+	z-index: 100;
+	border: solid black 1px;
+}
+
+li:hover ul.niveau2
+{
+	display:block;
+}
+
+.ListeN2:hover
+{
+	background-color: red;
+	width: 309px;
+	background-image: url("../images/FlechesTrans.png");
+	background-repeat: no-repeat;
+	background-position: left;
+	color: black;
+	border: solid black 1px;
+}
+
+#sign
+{
+	width: 108px;
+	height: 103px;
+	position: absolute;
+	top: 1015px;
+	left: 180px;
+	background-image: url("../images/Signature_N1B.png");
+	background-repeat: no-repeat;
+}
+
+/* Textes */
+
+#Corps_de_texte
+{
+	width: 758px;
+	height: 1280px;
+	background-image: url("../images/Fond_texte.png");
+	background-repeat: no-repeat;
+	position: absolute;
+	top: 152px;
+	left: 400px;
+	text-align: left;
+}
+
+#texte_t
+{
+	width: 215px;
+	height: 200px;
+	text-align: center;
+	position: absolute;
+	top: 880px;
+	left: 129px;
+}
+
+.texte_p
+{
+	width: 725px;
+	text-align: justify;
+	padding-left: 15px;
+	padding-right: 15px;
+}
+.texte_prems
+{
+	width: 705px;
+	text-align: justify;
+	padding-left: 25px;
+	padding-right: 25px;
+
+}
+
+#listeGenreBD
+{
+	position: relative;
+	padding-left: 200px;
+	top: -85px;
+}
+
+#nbPageBD
+{
+	width: 705px;
+	position: relative;
+	top: 50px;
+	left: -175px;
+	text-align: center;
+}
+
+#Prive
+{
+	position: absolute;
+	font-family: monotype corsiva;
+	font-size: 35px;
+	top: 536px;
+	margin-left: 215px;
+	z-index: 900;
+}
+
+.MenuPrive
+{
+	width: 230px;
+	height: 40px;
+	position: absolute;
+	top: 382px;
+	margin-left: 0px;
+	z-index: 905;
+}
+.AffichResult
+{
+	border-style: outset;
+	border-width: 2px;
+	border-color: #513276;
+	width: 705px;
+	position: relative;
+	top: 50px;
+	left: -175px;
+}
+td
+{
+	border-collapse: collapse;
+	text-align: center;
+	background-color: #78678e;
+}
+th
+{
+	border-collapse: collapse;
+	text-align: center;
+	background-color: #522c68;
+}
+
+
+/* Pied de page */
+
+#pied_de_page
+{
+	height: 77px;
+	width: 1000px;	
+	background-image: url("../images/Fond_Planche.png");
+	background-repeat: no-repeat;
+	position: absolute;
+	top: 1270px;
+	margin-top: 10px;
+	margin-left: -240px;
+}
+
+#Copyright
+{
+	width: 1200px;	
+	position: absolute;
+	top: 40px;
+	text-align: center;
+}
+
