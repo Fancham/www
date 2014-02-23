@@ -74,27 +74,39 @@ a.LienMenuN2:hover
 	text-decoration:none;
 }
 
-a.Lientexte:link,LientexteAccesPriveIci:link
+a.Lientexte:link
 {
 	color: white;
 }
 
-a.Lientexte:visited,LientexteAccesPriveIci:visited
+a.Lientexte:visited
 {
 	color: orange;
 	text-decoration:none;
 }
 
-a.Lientexte:hover,LientexteAccesPriveIci:hover
+a.Lientexte:hover
 {
 	color: orange;
+	text-decoration:none;
 }
 
 a.LientexteAccesPriveIci:link
 {
+	color: white;
 	position: relative;
-	top: -36px;
-	left:570px;
+	top: -20px;
+	left:400px;
+}
+
+a.LientexteAccesPriveIci:hover
+{
+	color: orange;
+}
+
+a.LientexteAccesPriveIci:visited
+{
+	color: orange;
 }
 
 /* En tête*/

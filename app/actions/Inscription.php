@@ -10,7 +10,7 @@
 
 
 	//Vérification que les variables POST d'inscription sont bien valorisées
-	if (isset($_POST['ActionDemande']) and isset($_POST['Nom']) and isset($_POST['Prenom']) and isset($_POST['Pseudo']) and isset($_POST['Mot_de_passe']) and isset($_POST['Conf_Mot_de_passe']) and isset($_POST['mail']))
+	if (isset($_POST['Nom']) and isset($_POST['Prenom']) and isset($_POST['Pseudo']) and isset($_POST['Mot_de_passe']) and isset($_POST['Conf_Mot_de_passe']) and isset($_POST['mail']))
 	{	
 		//Log
 		$this->log('Début de l inscription de '  .$_POST['Nom'] . $_POST['Prenom'], LOG_INFO);

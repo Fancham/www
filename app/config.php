@@ -4,7 +4,9 @@ Atomik::set(array(
 
     'plugins' => array(
 		'Logger' => array('register_default' => true,
-    					  'filename' => 'log.txt'
+    					  'filename' => 'log.txt',
+						  'level' => LOG_DEBUG,
+							
     					),
         'DebugBar' => array(
             // if you don't include jquery yourself as it is done in the
