@@ -2,9 +2,17 @@
 	// Chargement des parametres
 	$Path_CMN_Banniere='app/views/CMN/CMN_Banniere.php';
 	$Path_CMN_Compteur='app/views/CMN/CMN_Compteur.php';
-	$Path_CMN_Menu='app/views/CMN/CMN_Menu_Publique.php';
+	//$Path_CMN_Menu='app/views/CMN/CMN_Menu_Publique.php';
 	$Path_CMN_Pied_de_page='app/views/CMN/CMN_Pied_de_page.php';
 	
+	if (!isset($_SESSION['NomPrenom']) or empty($_SESSION['NomPrenom']))
+	{
+		$Path_CMN_Menu='app/views/CMN/CMN_Menu_Publique.php';
+	}
+	else
+	{
+		$Path_CMN_Menu='app/views/CMN/CMN_Menu_Prive.php';
+	}	
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">

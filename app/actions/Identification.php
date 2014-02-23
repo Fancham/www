@@ -16,13 +16,16 @@
 		//Protection contre les injections SQL
 		$pseudo=htmlspecialchars($_POST['login']);
 		
-		$mot_de_passe=$_POST['password'];
+		$mot_de_passe=htmlspecialchars($_POST['password']);
+		
+		//Hachage du mot de passe
+		$motDePasseHach=$BL_Identification->hachage($mot_de_passe);
 		
 		//Log
-		$this->log('Vérification que'. $pseudo .' est bien enregistré en base', LOG_DEBUG);
+		$this->log('Vérification que '. $pseudo .' est bien enregistré en base', LOG_DEBUG);
 
 		//Vérification que le visiteur est bien enregistré en base
-		$verifIdentification=$DAL_Identification->Identification($pseudo, $mot_de_passe);
+		$verifIdentification=$DAL_Identification->Identification($pseudo, $motDePasseHach);
 		
 		if ($verifIdentification == 'FD' || $verifIdentification == 'FO' || $verifIdentification == 'AO' || $verifIdentification == 'AD')
 		{	
@@ -39,7 +42,7 @@
 			$this->log('L identification de'. $pseudo .'a échoué' , LOG_DEBUG);
 			
 			//Récupération du message d'erreur
-			$verifIdentification=$BL_Identification->identification($pseudo, $mot_de_passe, $verifIdentification);
+			$verifIdentification=$BL_Identification->identification($pseudo, $motDePasseHach, $verifIdentification);
 			
 			//Mise en mémoire du message d'erreur pour affichage sur la page du site
 			$status=$verifIdentification["message"];
@@ -50,7 +53,7 @@
 			$this->log('Echec de l identification du visiteur' , LOG_DEBUG);
 			
 			//Récupération du message d'erreur
-			$verifIdentification=$BL_Identification->identification($pseudo, $mot_de_passe, $verifIdentification);
+			$verifIdentification=$BL_Identification->identification($pseudo, $motDePasseHach, $verifIdentification);
 			
 			//Mise en mémoire du message d'erreur pour affichage sur la page du site
 			$status=$verifIdentification["message"];

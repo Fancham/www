@@ -1,0 +1,68 @@
+<?php 
+	// Chargement des parametres
+	require('Commun_Publique/CMN_Parametres.php'); 
+	
+	$acceuil='index_Prive.php';
+	if (!isset($_SESSION['NomPrenom']) or empty($_SESSION['NomPrenom']))
+	{
+		$status="<div class=\"reponse_cnx_ko\"> L'accès à cette page vous est interdit pour l'instant. </div>";
+		include_once('Acces_Prive.php');
+		exit;
+	}
+	if ($_SESSION['page_passee2'][1]<$_SESSION['page_passee1'][1] or empty($_SESSION['page_passee2']))
+	{
+		$_SESSION['page_passee2']=array($_SESSION['pathRacine'].$_SESSION['pathIHM'].'index_Prive.php',date("dmYHis"));
+		$arriere=$_SESSION['page_passee1'][0];
+	}
+	else if (empty($_SESSION['page_passee1']))
+	{
+		$_SESSION['page_passee1']=array($_SESSION['pathRacine'].$_SESSION['pathIHM'].'index_Prive.php',date("dmYHis"));
+		$arriere=$_SESSION['page_passee2'][0];
+	}
+	else
+	{
+		$_SESSION['page_passee1']=array($_SESSION['pathRacine'].$_SESSION['pathIHM'].'index_Prive.php',date("dmYHis"));
+		$arriere=$_SESSION['page_passee2'][0];
+	}
+?>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="fr">
+	<head>
+		<title>François Deschamps</title>
+		<meta http-equiv="Content-Type" content="text/html;charset=iso-8859-1"/>
+		<link rel="stylesheet" media="screen" type="text/css" title="Mon style" href="<?php echo $_SESSION['pathRacine'] ?>CSS/Style.css"/>
+	</head>
+
+	<!-- En-tête -->
+
+<body>
+
+	<!-- Bannière -->
+	<?php include($_SESSION['pathRacine'].$_SESSION['pathIHM']."Banniere.php"); ?>	
+
+	<!-- Corps de texte -->
+	<!-- Menu -->
+	<?php include($_SESSION['pathRacine'].$_SESSION['pathIHM']."Menu_Prive.php"); ?>
+			
+	<!-- Compteur visiteurs -->
+	<?php include($_SESSION['pathRacine'].$_SESSION['pathIHM']."Compteur.php"); ?>
+	<!-- Fin du Compteur visiteurs -->
+			<p id="sign">
+			</P>
+
+	<!-- Texte principal -->
+		<div id="Corps_de_texte">
+		<h1>Accès aux pages privées</h1>
+			<p>identification réussie</p>
+			
+	<!-- Pied de page -->	
+	<?php include($_SESSION['pathRacine'].$_SESSION['pathIHM']."Pied_de_page.php"); ?>
+		</div>
+	</div>
+</body>
+
+</HTML>

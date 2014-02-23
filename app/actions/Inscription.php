@@ -21,8 +21,8 @@
 		$pseudo=htmlspecialchars($_POST['Pseudo']);
 		$mail=htmlspecialchars($_POST['mail']);
 				
-		$motDePasse=$_POST['Mot_de_passe'];
-		$confMotDePasse=$_POST['Conf_Mot_de_passe'];
+		$motDePasse=htmlspecialchars($_POST['Mot_de_passe']);
+		$confMotDePasse=htmlspecialchars($_POST['Conf_Mot_de_passe']);
 
 		
 		$repVerifMail=$Mail->verif_Mail($mail);
@@ -59,6 +59,11 @@
 				$message_html = "<html><head></head><body>Bonjour,<br /><br /> Une nouvelle demande d'inscription à été réalisée sur le site Fancham.fr par ". $prenom ." ". $nom .". </body></html>";
 				$destinataire = "francois_deschamps@mailhaven.com";
 				$Mail->envoi_mail($destinataire, $message_txt, $message_html, $sujet);
+				
+				//Retour à la page d'identification
+				$status="Votre demande d'inscription a bien été prise en compte. Un mail vous sera envoyé lors de la validation de votre compte par l'administrateur du site.";
+				Atomik::setView('Identification');
+				
 			}
 			else
 			{
