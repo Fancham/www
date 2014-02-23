@@ -12,7 +12,9 @@
 	//Vérification que les variables POST d'inscription sont bien valorisées
 	if (isset($_POST['ActionDemande']) and isset($_POST['Nom']) and isset($_POST['Prenom']) and isset($_POST['Pseudo']) and isset($_POST['Mot_de_passe']) and isset($_POST['Conf_Mot_de_passe']) and isset($_POST['mail']))
 	{	
-		echo 'tata';
+		//Log
+		$this->log('Début de l inscription de '  .$_POST['Nom'] . $_POST['Prenom'], LOG_INFO);
+		
 		//Protection contre les injections SQL
 		$nom=htmlspecialchars($_POST['Nom']);
 		$prenom=htmlspecialchars($_POST['Prenom']);
@@ -25,19 +27,32 @@
 		
 		$repVerifMail=$Mail->verif_Mail($mail);
 		
+		//Log
+		$this->log('Vérification que les valeurs du formulaire d inscription sont correctement renseignées', LOG_DEBUG);
+		
 		//Vérification que les valeurs du formulaire d'inscription sont correctement renseignées
 		$verifInscription=$BL_Identification->Inscription_site($nom, $prenom, $pseudo, $motDePasse, $confMotDePasse, $mail, $repVerifMail);
-
+		
+		
 		//Hachage du mot de passe
 		$motDePasseHach=$BL_Identification->hachage($motDePasse);
 		
+		//Log
+		$this->log('Vérification de l inscription', LOG_DEBUG);
+		
 		if ($verifInscription["statut"]==1)
 		{
+			//Log
+			$this->log('Enregistrement de ' . $pseudo . 'dans la BDD', LOG_DEBUG);
+			
 			//Enregistrement du visiteur dans la BDD
 			$retourInscriptionBDD=$DAL_Identification->Inscription($nom, $prenom, $pseudo, $motDePasseHach, $mail);
-			echo 'titi';
+
 			if($retourInscriptionBDD)
 			{
+				//Log
+				$this->log('Envoi de mail à l administrateur du site', LOG_DEBUG);
+			
 				//Envoi d'un mail à l'administrateur du site
 				$sujet = "Demande d'inscription au site Fancham par ". $prenom ." ". $nom ." !";
 				$message_txt = "Une nouvelle demande d'inscription à été réalisée sur le site Fancham.fr par ". $prenom ." ". $nom ."";
@@ -47,6 +62,9 @@
 			}
 			else
 			{
+				//Log
+				$this->log('L inscription de' . $pseudo . ' en BDD à échoué', LOG_DEBUG);
+				
 				//L'inscription du visiteur en BDD à échoué
 				$status=$retourInscriptionBDD["message"];
 			}
@@ -54,9 +72,14 @@
 		}
 		else 
 		{
-			echo 'toto';
+			//Log
+			$this->log('Les données renseignées dans le formulaire sont incorrectes', LOG_DEBUG);
+				
 			//Les données renseignées dans le formulaire sont incorrectes
 			$status=$verifInscription["message"];
 		}
+		
+		//Log
+		$this->log('Fin de l inscription de '  .$_POST['Nom'] . $_POST['Prenom'], LOG_INFO);
 	}
 ?>

@@ -3,7 +3,6 @@
 	Atomik::needed('DAL/Identification');
 	Atomik::needed('BL/Identification');
 
-$this->log('an error has occured!', LOG_ERR);
 	$DAL_Identification=new DAL_Identification();
 	$BL_Identification=new BL_Identification();
 	
@@ -11,22 +10,34 @@ $this->log('an error has occured!', LOG_ERR);
 	//Vérification que les variables POST login et password sont bien valorisées
 	if (isset($_POST['login']) and isset($_POST['password']))
 	{
+		//Log
+		$this->log('Début de l identification de ' . $_POST['login'], LOG_INFO);
+		
 		//Protection contre les injections SQL
 		$pseudo=htmlspecialchars($_POST['login']);
 		
 		$mot_de_passe=$_POST['password'];
+		
+		//Log
+		$this->log('Vérification que'. $pseudo .' est bien enregistré en base', LOG_DEBUG);
 
 		//Vérification que le visiteur est bien enregistré en base
 		$verifIdentification=$DAL_Identification->Identification($pseudo, $mot_de_passe);
 		
 		if ($verifIdentification == 'FD' || $verifIdentification == 'FO' || $verifIdentification == 'AO' || $verifIdentification == 'AD')
-		{
+		{	
+			//Log
+			$this->log('Valorisation des variables de session', LOG_DEBUG);
+			
 			//Valorisation des variables de session si le visiteur est bien identifié
 			$BL_Identification->identification($pseudo, $mot_de_passe, $verifIdentification);
 			Atomik::url('En_Travaux');
 		}
 		else if ($verifIdentification == 'NOK')
 		{	
+			//Log
+			$this->log('L identification de'. $pseudo .'a échoué' , LOG_DEBUG);
+			
 			//Récupération du message d'erreur
 			$verifIdentification=$BL_Identification->identification($pseudo, $mot_de_passe, $verifIdentification);
 			
@@ -35,6 +46,9 @@ $this->log('an error has occured!', LOG_ERR);
 		}
 		else
 		{
+			//log
+			$this->log('Echec de l identification du visiteur' , LOG_DEBUG);
+			
 			//Récupération du message d'erreur
 			$verifIdentification=$BL_Identification->identification($pseudo, $mot_de_passe, $verifIdentification);
 			
@@ -43,5 +57,7 @@ $this->log('an error has occured!', LOG_ERR);
 			Atomik::setView('Inscription');
 		}
 		
+		//Log
+		$this->log('Fin de l identification de ' . $_POST['login'], LOG_INFO);
 	}
 ?>
