@@ -46,6 +46,6 @@ $ReponseBD=$DAL_Recherche->AffichageListeGenreBD();
 $ReponseLecteur=$DAL_Recherche->AffichageListeLecteurBD();
 $ReponseType=$DAL_Recherche->AffichageListeTypeBD();
 
-
+Atomik::setView('Collection_BD');
 
 ?>

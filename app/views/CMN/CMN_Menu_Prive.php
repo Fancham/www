@@ -32,7 +32,7 @@
 		<li class="MenuLoisirs">
 				<ul class="niveau2">
 					<li class="ListeN2"><a href="<?php echo Atomik::url('En_Travaux'); ?>" class="LienMenuN2">Loisirs</a></li>
-					<li class="ListeN2"><a href="<?php echo Atomik::url('Bandes_Dessinees'); ?>" class="LienMenuN2">Collections BD</a></li>
+					<li class="ListeN2"><a href="<?php echo Atomik::url('Collection_BD'); ?>" class="LienMenuN2">Collection BD</a></li>
 				</ul>
 		</li>
 	</ul>
