@@ -4,15 +4,15 @@
 	Atomik::needed('CMN/Parametres');
 	
 	class DAL_Identification
-	{
-		//Initialisation des variables
-		Private $fd="FamilleD";
-		Private $fo="FamilleO";
-		Private $ao="AmisO";
-		Private $ad="AmisD";
-		
+	{	
 		function Identification($pseudo,$mot_de_passe)
 		{
+			//Initialisation des variables
+			$fd="FamilleD";
+			$fo="FamilleO";
+			$ao="AmisO";
+			$ad="AmisD";
+		
 			//Vérification que le visiteur est déjà inscrit
 			$RepVIns=DAL_Identification::VerifInscription($pseudo,$mot_de_passe);
 			
@@ -27,25 +27,25 @@
 				//Vérification si c'est un membre de la famille Deschamps
 				$sqlFD='SELECT count( 1 ) AS count FROM Users WHERE Pseudo = :pseudo AND Password = :password AND Demande=0 and Type= :fd';
 				$RFD=$bdd->prepare($sqlFD);
-				$RFD->execute(array(':pseudo' => ''. $login .'', ':password' => ''. $password.'', ':fd' => ''. $fd.''));
+				$RFD->execute(array(':pseudo' => ''. $login .'', ':password' => ''. $password.'', ':fd' => ''. $fd .''));
 				$DonneesFD=$RFD->fetch();
 				
 				//Vérification si c'est un membre de la famille Ostanciaux
 				$sqlFO='SELECT count( 1 ) AS count FROM Users WHERE Pseudo = :pseudo AND Password = :password AND Demande=0 and Type= :fo';
 				$RFO=$bdd->prepare($sqlFO);
-				$RFO->execute(array(':pseudo' => ''. $login .'', ':password' => ''. $password.'', ':fo' => ''. $fo.''));
+				$RFO->execute(array(':pseudo' => ''. $login .'', ':password' => ''. $password.'', ':fo' => ''. $fo .''));
 				$DonneesFO=$RFO->fetch();
 				
 				//Vérification si c'est un membre des Amis de Milie
 				$sqlAO='SELECT count( 1 ) AS count FROM Users WHERE Pseudo = :pseudo AND Password = :password AND Demande=0 and Type= :ao';
 				$RAO=$bdd->prepare($sqlAO);
-				$RAO->execute(array(':pseudo' => ''. $login .'', ':password' => ''. $password.'', ':ao' => ''. $ao.''));
+				$RAO->execute(array(':pseudo' => ''. $login .'', ':password' => ''. $password.'', ':ao' => ''. $ao .''));
 				$DonneesAO=$RAO->fetch();
 				
 				//Vérification si c'est un membre des Amis de Fancham
 				$sqlAD='SELECT count( 1 ) AS count FROM Users WHERE Pseudo = :pseudo AND Password = :password AND Demande=0 and Type= :ad';
 				$RAD=$bdd->prepare($sqlAD);
-				$RAD->execute(array(':pseudo' => ''. $login .'', ':password' => ''. $password.'', ':ad' => ''. $ad.''));
+				$RAD->execute(array(':pseudo' => ''. $login .'', ':password' => ''. $password.'', ':ad' => ''. $ad .''));
 				$DonneesAD=$RAD->fetch();
 				
 				//Fermeture de la connexion à la BDD
@@ -198,7 +198,7 @@
 		function RecupNomPrenom($pseudo)
 		{
 			//Ouverture d'une connexion en BDD
-			$bdd=Connex();
+			$bdd=DAL_Identification::Connex();
 			
 			$sql='SELECT Nom, Prenom FROM Users WHERE pseudo = :pseudo';
 			$R=$bdd->prepare($sql);
@@ -208,7 +208,7 @@
 			return $nomPrenom;
 			
 			//Fermeture de la connexion à la BDD
-			ConnexKO($bdd);
+			DAL_Identification::ConnexKO($bdd);
 		}
 	}
 ?>

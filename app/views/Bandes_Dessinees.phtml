@@ -1,0 +1,177 @@
+
+<!-- Texte principal -->
+<div id="Corps_de_texte">
+	<h1>Liste de mes bandes dessinées</h1>
+	<p class="texte_prems">Pour rechercher les bandes dessinées que nous
+		possèdons, choisissez le type de BD que vous recherchez dans la liste
+		déroulante ci-contre:
+	
+	
+	<form id="listeGenreBD"
+		action="<?php echo Atomik::url('Recherche'); ?>" method="post">
+		<select name="ListeGenreBD">
+			<option value="Vide"></option>
+			<option value="Tout">Tout</option>
+			<?php
+			$ReponseBD=AffichageListeGenreBD();
+			While($Donnees=$ReponseBD->fetch())
+			{
+				echo '<option value="'; echo $Donnees['Genre']; echo '">'; echo $Donnees['Genre']; echo '</option>';
+			}
+			$ReponseBD->closeCursor();
+			?>
+		</select> <select name="ListeLecteur">
+			<option value="Vide"></option>
+			<?php
+			$ReponseLecteur=AffichageListeLecteurBD();
+			While($Donnees=$ReponseLecteur->fetch())
+			{
+				echo '<option value="'; echo $Donnees['Lecteur']; echo '">'; echo $Donnees['Lecteur']; echo '</option>';
+			}
+			$ReponseLecteur->closeCursor();
+			?>
+		</select> <select name="ListeType">
+			<option value="Vide"></option>
+			<?php
+			$ReponseType=AffichageListeTypeBD();
+			While($Donnees=$ReponseType->fetch())
+			{
+				echo '<option value="'; echo $Donnees['Type']; echo '">'; echo $Donnees['Type']; echo '</option>';
+			}
+			$ReponseType->closeCursor();
+			?>
+		</select> <input type="submit" value="Envoyer" />
+		<?php
+		$limite=22;
+		$_SESSION['limiteBD']=$limite;
+		if(isset($_GET['page']) && (isset($_SESSION['genre']) || isset($_SESSION['type']) || isset($_SESSION['lecteur'])))
+		{
+			$pageActuelle=intval($_GET['page']);
+			$genre=$_SESSION['genre'];
+			$type=$_SESSION['type'];
+			$lecteur=$_SESSION['lecteur'];
+			$_SESSION['debutBD']=($pageActuelle-1)*$limite;
+			if (($genre=='Tout' or empty($genre)) and empty($type) and empty($lecteur))
+			{
+				$NbTotalResult=ListeBDRechercheToutNbTot();
+				$NbTotal=$NbTotalResult->fetch();
+				$NbPage=ceil($NbTotal['count']/$limite);
+				if($pageActuelle>$NbPage)
+				{
+					$pageActuelle=$NbPage;
+				}
+				$Resultat=ListeBDRechercheToutLimiteDAL();
+			}
+			else
+			{
+				$NbTotalResult=ListeBDRechercheNbTot($genre);
+				$NbTotal=$NbTotalResult->fetch();
+				$NbPage=ceil($NbTotal['count']/$limite);
+				if($pageActuelle>$NbPage)
+				{
+					$pageActuelle=$NbPage;
+				}
+				$Resultat=ListeBDRechercheLimiteDAL();
+			}
+		}
+		else
+		{
+			$pageActuelle=1;
+			$_SESSION['debutBD']=($pageActuelle-1)*$limite;
+			if ($genre=='Tout')
+			{
+				$NbTotalResult=ListeBDRechercheToutNbTot();
+				$NbTotal=$NbTotalResult->fetch();
+				$NbPage=ceil($NbTotal['count']/$limite);
+			}
+			else
+			{
+				$NbTotalResult=ListeBDRechercheNbTot($genre);
+				$NbTotal=$NbTotalResult->fetch();
+				$NbPage=ceil($NbTotal['count']/$limite);
+			}
+		}
+		if (empty($Resultat)== false)
+		{
+			echo '<table class="AffichResult">';
+			echo "<tr>";
+			echo "<th>";
+			echo 'Nom';
+			echo "</th>";
+			echo "<th>";
+			echo 'Titre';
+			echo "</th>";
+			echo "<th>";
+			echo 'Volume(s)';
+			echo "</th>";
+			echo "<th>";
+			echo 'Auteur';
+			echo "</th>";
+			echo "<th>";
+			echo 'Editeur';
+			echo "</th>";
+			echo "<th>";
+			echo 'Genre';
+			echo "</th>";
+			echo "<th>";
+			echo 'Type';
+			echo "</th>";
+			echo "<th>";
+			echo 'Lecteur';
+			echo "</th>";
+			echo "</tr>";
+			While ($Affichage=$Resultat->fetch())
+			{
+				echo "<tr>";
+				echo "<td>";
+				echo $Affichage['Nom'];
+				echo "</td>";
+				echo "<td>";
+				echo $Affichage['Titre'];
+				echo "</td>";
+				echo "<td>";
+				echo $Affichage['Volumes achetés'];
+				echo "</td>";
+				echo "<td>";
+				echo $Affichage['Auteur'];
+				echo "</td>";
+				echo "<td>";
+				echo $Affichage['Editeur'];
+				echo "</td>";
+				echo "<td>";
+				echo $Affichage['Genre'];
+				echo "</td>";
+				echo "<td>";
+				echo $Affichage['Type'];
+				echo "</td>";
+				echo "<td>";
+				echo $Affichage['Lecteur'];
+				echo "</td>";
+				echo "</tr>";
+			}
+			$Resultat->closeCursor();
+			echo "</table>";
+			echo '<p id="nbPageBD" align="center">Page : ';
+			for($i=1; $i<=$NbPage; $i++)
+			{
+				if($i==$pageActuelle)
+				{
+					echo ' [ '.$i.' ] ';
+				}
+				else
+				{
+					if($_SESSION['demande']=='n')
+					{
+						echo ' <a class="Lientexte" href="'. $racine .'IHM/Fancham/FD/Bandes_Dessinees.php?page='.$i.'">'.$i.'</a> ';
+					}
+					else
+					{
+						echo ' <a class="Lientexte" href="../../IHM/Fancham/FD/Bandes_Dessinees.php?page='.$i.'">'.$i.'</a> ';;
+					}
+				}
+			}
+			echo '</p>';
+		}
+		?>
+	</form>
+	</p>

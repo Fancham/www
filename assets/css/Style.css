@@ -266,10 +266,16 @@ h2
 
 /* Temporaire */
 
+.reponse
+{
+	position: relative;
+	color: white;
+	font-weight: bold;
+}
+
 .reponse_ko
 {
 	position: relative;
-	top: -40px;
 	color: red;
 	font-weight: bold;
 }
@@ -278,14 +284,13 @@ h2
 {
 	position: relative;
 	top: 0px;
-	color: white;
+	color: green;
 	font-weight: bold;
 }
 
 .reponse_nok
 {
 	position: relative;
-	top: 0px;
 	color: white;
 	font-weight: bold;
 }
@@ -293,7 +298,6 @@ h2
 .reponse_cnx_ko
 {
 	position: relative;
-	top: 0px;
 	color: red;
 	font-weight: bold;
 }

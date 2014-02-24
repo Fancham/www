@@ -2,7 +2,7 @@
 	
 	Atomik::needed('DAL/Identification');
 	Atomik::needed('BL/Identification');
-	Atomik::needed('BL/EmissionReceptio');
+	Atomik::needed('BL/EmissionReception');
 	
 	$Mail=new BL_EmissionReception();
 	$DAL_Identification=new DAL_Identification();
@@ -23,6 +23,10 @@
 				
 		$motDePasse=htmlspecialchars($_POST['Mot_de_passe']);
 		$confMotDePasse=htmlspecialchars($_POST['Conf_Mot_de_passe']);
+		
+		//Hachage des mots de passe
+		$motDePasseHach=$BL_Identification->hachage($motDePasse);
+		$confMotDePasseHach=$BL_Identification->hachage($confMotDePasse);
 
 		
 		$repVerifMail=$Mail->verif_Mail($mail);
@@ -31,11 +35,7 @@
 		$this->log('Vérification que les valeurs du formulaire d inscription sont correctement renseignées', LOG_DEBUG);
 		
 		//Vérification que les valeurs du formulaire d'inscription sont correctement renseignées
-		$verifInscription=$BL_Identification->Inscription_site($nom, $prenom, $pseudo, $motDePasse, $confMotDePasse, $mail, $repVerifMail);
-		
-		
-		//Hachage du mot de passe
-		$motDePasseHach=$BL_Identification->hachage($motDePasse);
+		$verifInscription=$BL_Identification->Inscription_site($nom, $prenom, $pseudo, $motDePasseHach, $confMotDePasseHach, $mail, $repVerifMail);
 		
 		//Log
 		$this->log('Vérification de l inscription', LOG_DEBUG);
@@ -61,7 +61,7 @@
 				$Mail->envoi_mail($destinataire, $message_txt, $message_html, $sujet);
 				
 				//Retour à la page d'identification
-				$status="Votre demande d'inscription a bien été prise en compte. Un mail vous sera envoyé lors de la validation de votre compte par l'administrateur du site.";
+				$status="<div class=\"reponse_ok\"> Votre demande d'inscription a bien été prise en compte. Un mail vous sera envoyé lors de la validation de votre compte par l administrateur du site.</div>";
 				Atomik::setView('Identification');
 				
 			}

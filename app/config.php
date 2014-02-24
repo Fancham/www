@@ -41,7 +41,7 @@ Atomik::set(array(
     // le Layout utilisé par defaut
     'app.layout' => '_Layout_Ihm_Fancham',
     // l'action appelé par defaut
-    'app.default_action' => 'Accueil_Publique',
+    'app.default_action' => 'Accueil',
     // Active l'url rewriting (les urls généré avec la méthode url() seront correctement formatées)
     // voir doc en ligne pour plus d'info
     'atomik.url_rewriting' => true

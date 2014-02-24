@@ -27,14 +27,16 @@
 		//Vérification que le visiteur est bien enregistré en base
 		$verifIdentification=$DAL_Identification->Identification($pseudo, $motDePasseHach);
 		
+		$NomPrenom=$DAL_Identification->RecupNomPrenom($pseudo);
+		
 		if ($verifIdentification == 'FD' || $verifIdentification == 'FO' || $verifIdentification == 'AO' || $verifIdentification == 'AD')
 		{	
 			//Log
 			$this->log('Valorisation des variables de session', LOG_DEBUG);
 			
 			//Valorisation des variables de session si le visiteur est bien identifié
-			$BL_Identification->identification($pseudo, $mot_de_passe, $verifIdentification);
-			Atomik::url('En_Travaux');
+			$BL_Identification->ActivationIdentification($pseudo, $NomPrenom, $motDePasseHach, $verifIdentification);
+			Atomik::setView('En_Travaux');
 		}
 		else if ($verifIdentification == 'NOK')
 		{	
@@ -42,10 +44,10 @@
 			$this->log('L identification de'. $pseudo .'a échoué' , LOG_DEBUG);
 			
 			//Récupération du message d'erreur
-			$verifIdentification=$BL_Identification->identification($pseudo, $motDePasseHach, $verifIdentification);
+			$RetourActivationIdentification=$BL_Identification->ActivationIdentification($pseudo, $NomPrenom, $motDePasseHach, $verifIdentification);
 			
 			//Mise en mémoire du message d'erreur pour affichage sur la page du site
-			$status=$verifIdentification["message"];
+			$status=$RetourActivationIdentification["message"];
 		}
 		else
 		{
@@ -53,10 +55,10 @@
 			$this->log('Echec de l identification du visiteur' , LOG_DEBUG);
 			
 			//Récupération du message d'erreur
-			$verifIdentification=$BL_Identification->identification($pseudo, $motDePasseHach, $verifIdentification);
+			$RetourActivationIdentification=$BL_Identification->ActivationIdentification($pseudo, $NomPrenom, $motDePasseHach, $verifIdentification);
 			
 			//Mise en mémoire du message d'erreur pour affichage sur la page du site
-			$status=$verifIdentification["message"];
+			$status=$RetourActivationIdentification["message"];
 			Atomik::setView('Inscription');
 		}
 		

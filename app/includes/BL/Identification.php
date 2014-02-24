@@ -1,7 +1,7 @@
 <?php
 
-	Class BL_Identification
-	{
+Class BL_Identification
+{
 		function Inscription_site($nom,$prenom,$pseudo,$motDePasse,$confMotDePasse,$mail,$repVerifMail)
 		{
 			//Comparaison entre le mot de passe et la confirmation du mot de passe
@@ -52,38 +52,38 @@
 		}
 		
 		
-		function identification($pseudo,$mot_de_passe,$verifIdentification)
+		function ActivationIdentification($pseudo,$NomPrenom,$mot_de_passe,$verifIdentification)
 		{
 			//Sécurisation contre les injections sql
-			$login=htmlspecialchars($pseudo);
+			$login=$pseudo;
 			
 			//Mise en mémoire session du Login
 			$_SESSION['login']=$login;
 			
 			//Hachage du mot de passe
-			$password=BL_Identification::hachage($mot_de_passe);
+			$password=$mot_de_passe;
 		
 			if ($verifIdentification=='FD')
 			{
-				$_SESSION['NomPrenom']=array(RecupNomPrenom($pseudo),'FD');
+				$_SESSION['NomPrenom']=array($NomPrenom,'FD');
 				$retourIdentification=array("statut" => 1,"message" =>"");
 				return $retourIdentification;
 			}
 			else if ($verifIdentification=='FO')
 			{
-				$_SESSION['NomPrenom']=array(RecupNomPrenom($pseudo),'FO');
+				$_SESSION['NomPrenom']=array($NomPrenom,'FO');
 				$retourIdentification=array("statut" => 2,"message" =>"");
 				return $retourIdentification;
 			}
 			else if ($verifIdentification=='AO')
 			{
-				$_SESSION['NomPrenom']=array(RecupNomPrenom($pseudo),'AO');
+				$_SESSION['NomPrenom']=array($NomPrenom,'AO');
 				$retourIdentification=array("statut" => 3,"message" =>"");
 				return $retourIdentification;
 			}
 			else if ($verifIdentification=='AD')
 			{
-				$_SESSION['NomPrenom']=array(RecupNomPrenom($pseudo),'AD');
+				$_SESSION['NomPrenom']=array($NomPrenom,'AD');
 				$retourIdentification=array("statut" => 4,"message" =>"");
 				return $retourIdentification;
 			}
