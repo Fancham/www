@@ -40,7 +40,7 @@ Class BL_Recherche
 		include_once($_SESSION['pathRacine'].$_SESSION['pathDAL'].'index.php');
 		$Resultat=ListeBDRecherche($genre);
 		return $Resultat;
-	}	
+	}
 
 	function ListeBDRechercheToutLimiteDAL()
 	{
