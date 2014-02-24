@@ -13,7 +13,6 @@
 			<option value="Vide"></option>
 			<option value="Tout">Tout</option>
 			<?php
-			$ReponseBD=AffichageListeGenreBD();
 			While($Donnees=$ReponseBD->fetch())
 			{
 				echo '<option value="'; echo $Donnees['Genre']; echo '">'; echo $Donnees['Genre']; echo '</option>';
@@ -23,7 +22,6 @@
 		</select> <select name="ListeLecteur">
 			<option value="Vide"></option>
 			<?php
-			$ReponseLecteur=AffichageListeLecteurBD();
 			While($Donnees=$ReponseLecteur->fetch())
 			{
 				echo '<option value="'; echo $Donnees['Lecteur']; echo '">'; echo $Donnees['Lecteur']; echo '</option>';
@@ -33,7 +31,6 @@
 		</select> <select name="ListeType">
 			<option value="Vide"></option>
 			<?php
-			$ReponseType=AffichageListeTypeBD();
 			While($Donnees=$ReponseType->fetch())
 			{
 				echo '<option value="'; echo $Donnees['Type']; echo '">'; echo $Donnees['Type']; echo '</option>';
@@ -42,15 +39,10 @@
 			?>
 		</select> <input type="submit" value="Envoyer" />
 		<?php
-		$limite=22;
-		$_SESSION['limiteBD']=$limite;
-		if(isset($_GET['page']) && (isset($_SESSION['genre']) || isset($_SESSION['type']) || isset($_SESSION['lecteur'])))
+		if(isset($_GET['page']) )
 		{
 			$pageActuelle=intval($_GET['page']);
-			$genre=$_SESSION['genre'];
-			$type=$_SESSION['type'];
-			$lecteur=$_SESSION['lecteur'];
-			$_SESSION['debutBD']=($pageActuelle-1)*$limite;
+			$debutBD=($pageActuelle-1)*$limite;
 			if (($genre=='Tout' or empty($genre)) and empty($type) and empty($lecteur))
 			{
 				$NbTotalResult=ListeBDRechercheToutNbTot();
