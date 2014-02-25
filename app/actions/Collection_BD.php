@@ -6,8 +6,7 @@ if (!isset($_SESSION['NomPrenom']) or empty($_SESSION['NomPrenom']))
 	exit;
 }
 
-Atomik::needed('DAL/Identification');
-Atomik::needed('BL/Identification');
+Atomik::needed('DAL/Recherche');
 Atomik::needed('BL/Recherche');
 
 $DAL_Recherche=new DAL_Recherche();
@@ -45,7 +44,5 @@ if (isset($_POST['ListeGenreBD']) or isset($_POST['ListeType']) or isset($_POST[
 $ReponseBD=$DAL_Recherche->AffichageListeGenreBD();
 $ReponseLecteur=$DAL_Recherche->AffichageListeLecteurBD();
 $ReponseType=$DAL_Recherche->AffichageListeTypeBD();
-
-Atomik::setView('Collection_BD');
 
 ?>
