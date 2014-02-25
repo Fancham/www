@@ -1,28 +1,6 @@
 <?php
 Class BL_Recherche
 {
-	// Menu Liste Genre dans la page de sélection des BD
-	function AffichageListeGenreBD()
-	{
-
-		$ListeBD=ListeGenreBD();
-		return $ListeBD;
-	}
-
-	// Menu Liste Type dans la page de sélection des BD
-	function AffichageListeTypeBD()
-	{
-		$ListeBD=ListeTypeBD();
-		return $ListeBD;
-	}
-
-	// Menu Liste Lecteur dans la page de sélection des BD
-	function AffichageListeLecteurBD()
-	{
-		$ListeBD=ListeLecteurBD();
-		return $ListeBD;
-	}
-
 	function ListeBDRechercheToutNbTot()
 	{
 		$Resultat=ListeBDRechercheTout();

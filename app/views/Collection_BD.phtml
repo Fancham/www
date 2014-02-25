@@ -5,8 +5,8 @@
 <p class="texte_prems">Pour rechercher les bandes dessinées que nous
 	possèdons, choisissez le type de BD que vous recherchez dans la liste
 	déroulante ci-contre:
-<form id="listeGenreBD" action="<?php echo Atomik::url('Collection_BD'); ?>"
-	method="post">
+<form id="listeGenreBD"
+	action="<?php echo Atomik::url('Collection_BD'); ?>" method="post">
 	<select name="ListeGenreBD">
 		<option value="Vide"></option>
 		<option value="Tout">Tout</option>
@@ -37,52 +37,14 @@
 		?>
 	</select> <input type="submit" value="Envoyer" />
 	<?php
-	if(isset($_GET['page']) )
-	{
-		$pageActuelle=intval($_GET['page']);
-		$debutBD=($pageActuelle-1)*$limite;
-		if (($genre=='Tout' or empty($genre)) and empty($type) and empty($lecteur))
-		{
-			$NbTotalResult=ListeBDRechercheToutNbTot();
-			$NbTotal=$NbTotalResult->fetch();
-			$NbPage=ceil($NbTotal['count']/$limite);
-			if($pageActuelle>$NbPage)
-			{
-				$pageActuelle=$NbPage;
-			}
-			$Resultat=ListeBDRechercheToutLimiteDAL();
-		}
-		else
-		{
-			$NbTotalResult=ListeBDRechercheNbTot($genre);
-			$NbTotal=$NbTotalResult->fetch();
-			$NbPage=ceil($NbTotal['count']/$limite);
-			if($pageActuelle>$NbPage)
-			{
-				$pageActuelle=$NbPage;
-			}
-			$Resultat=ListeBDRechercheLimiteDAL();
-		}
-	}
-	else
-	{
-		$pageActuelle=1;
-		$_SESSION['debutBD']=($pageActuelle-1)*$limite;
-		if ($genre=='Tout')
-		{
-			$NbTotalResult=ListeBDRechercheToutNbTot();
-			$NbTotal=$NbTotalResult->fetch();
-			$NbPage=ceil($NbTotal['count']/$limite);
-		}
-		else
-		{
-			$NbTotalResult=ListeBDRechercheNbTot($genre);
-			$NbTotal=$NbTotalResult->fetch();
-			$NbPage=ceil($NbTotal['count']/$limite);
-		}
-	}
-	if (empty($Resultat)== false)
-	{
+
+	//$pageCourante = 0;
+	$maxLignes = 10;
+	$page = '';
+
+	// Affichage de la liste
+	if(isset($Resultat)) {
+		$Affichage=$Resultat->fetchAll();
 		echo '<table class="AffichResult">';
 		echo "<tr>";
 		echo "<th>";
@@ -110,58 +72,53 @@
 		echo 'Lecteur';
 		echo "</th>";
 		echo "</tr>";
-		While ($Affichage=$Resultat->fetch())
+		for ($i=($pageCourante-1)*$maxLignes; $i < $maxLignes*$pageCourante; $i++)
 		{
 			echo "<tr>";
 			echo "<td>";
-			echo $Affichage['Nom'];
+			echo $Affichage[$i]['Nom'];
 			echo "</td>";
 			echo "<td>";
-			echo $Affichage['Titre'];
+			echo $Affichage[$i]['Titre'];
 			echo "</td>";
 			echo "<td>";
-			echo $Affichage['Volumes achetés'];
+			echo $Affichage[$i]['Volumes achetés'];
 			echo "</td>";
 			echo "<td>";
-			echo $Affichage['Auteur'];
+			echo $Affichage[$i]['Auteur'];
 			echo "</td>";
 			echo "<td>";
-			echo $Affichage['Editeur'];
+			echo $Affichage[$i]['Editeur'];
 			echo "</td>";
 			echo "<td>";
-			echo $Affichage['Genre'];
+			echo $Affichage[$i]['Genre'];
 			echo "</td>";
 			echo "<td>";
-			echo $Affichage['Type'];
+			echo $Affichage[$i]['Type'];
 			echo "</td>";
 			echo "<td>";
-			echo $Affichage['Lecteur'];
+			echo $Affichage[$i]['Lecteur'];
 			echo "</td>";
 			echo "</tr>";
 		}
-		$Resultat->closeCursor();
 		echo "</table>";
-		echo '<p id="nbPageBD" align="center">Page : ';
-		for($i=1; $i<=$NbPage; $i++)
-		{
-			if($i==$pageActuelle)
-			{
-				echo ' [ '.$i.' ] ';
-			}
-			else
-			{
-				if($_SESSION['demande']=='n')
-				{
-					echo ' <a class="Lientexte" href="'. $racine .'IHM/Fancham/FD/Bandes_Dessinees.php?page='.$i.'">'.$i.'</a> ';
-				}
-				else
-				{
-					echo ' <a class="Lientexte" href="../../IHM/Fancham/FD/Bandes_Dessinees.php?page='.$i.'">'.$i.'</a> ';;
-				}
-			}
+		
+		echo "</br>";
+		echo "</br>";
+
+		// Affichage des numéro de page
+		$page.='<p>';
+		for ($i=1; $i < count($Affichage)/$maxLignes+1; $i++) {
+			$page.='<a href="'.Atomik::url('Collection_BD', Array('page' => $i)).'">';
+			$page.='('.$i.')-';
+			$page.='</a>';
 		}
-		echo '</p>';
+		$page.='</p>';
 	}
+	else {
+		$page.='<p>&nbsp;</p>';
+	}
+	echo $page;
 	?>
 </form>
 </p>

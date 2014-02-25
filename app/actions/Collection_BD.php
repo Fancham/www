@@ -8,12 +8,11 @@ if (!isset($_SESSION['NomPrenom']) or empty($_SESSION['NomPrenom']))
 
 Atomik::needed('DAL/Recherche');
 Atomik::needed('BL/Recherche');
+Atomik::needed('BL/Pagination');
 
 $DAL_Recherche=new DAL_Recherche();
 $BL_Identification=new BL_Identification();
 $BL_Recherche=new BL_Recherche();
-
-$limite=22;
 
 if (isset($_POST['ListeGenreBD']) or isset($_POST['ListeType']) or isset($_POST['ListeLecteur']))
 {
@@ -29,20 +28,15 @@ if (isset($_POST['ListeGenreBD']) or isset($_POST['ListeType']) or isset($_POST[
 	{
 		$lecteur=$_POST['ListeLecteur'];
 	}
-	$debut=$debutBD;
-
-	if (($genre=='Tout' or empty($genre)) and empty($type) and empty($lecteur))
-	{
-		$Resultat=$DAL_Recherche->ListeBDRechercheToutLimite($debut,$limite);
-	}
-	else
-	{
-		$Resultat=$DAL_Recherche->ListeBDRechercheLimite($genre,$type,$lecteur,$debut,$limite);
-	}
+	$Resultat=$DAL_Recherche->ListeBDRechercheConditionne($genre,$type,$lecteur);
 }
 
-$ReponseBD=$DAL_Recherche->AffichageListeGenreBD();
-$ReponseLecteur=$DAL_Recherche->AffichageListeLecteurBD();
-$ReponseType=$DAL_Recherche->AffichageListeTypeBD();
+$ReponseBD=$DAL_Recherche->ListeGenreBD();
+$ReponseLecteur=$DAL_Recherche->ListeLecteurBD();
+$ReponseType=$DAL_Recherche->ListeTypeBD();
+
+$pageCourante=getPageCourante('page');
+
+//$contentForLayout = Atomik::render('Collection_BD', Array('Resultat'=>$Resultat, 'pageCourante'=>$pageCourante));
 
 ?>

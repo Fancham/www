@@ -10,11 +10,11 @@ Class DAL_Recherche
 	{
 		try
 		{
-			$bdd=Recherche::Connex();
+			$bdd=DAL_Recherche::Connex();
 			$sql='SELECT DISTINCT Genre FROM Livres';
 			$R=$bdd->query($sql);
 
-			Recherche::ConnexKO($bdd);
+			DAL_Recherche::ConnexKO($bdd);
 			return $R;
 		}
 		catch (Exception $e)
@@ -28,11 +28,11 @@ Class DAL_Recherche
 	{
 		try
 		{
-			$bdd=Recherche::Connex();
+			$bdd=DAL_Recherche::Connex();
 			$sql='SELECT DISTINCT Type FROM Livres';
 			$R=$bdd->query($sql);
 
-			Recherche::ConnexKO($bdd);
+			DAL_Recherche::ConnexKO($bdd);
 			return $R;
 		}
 		catch (Exception $e)
@@ -46,11 +46,11 @@ Class DAL_Recherche
 	{
 		try
 		{
-			$bdd=Recherche::Connex();
+			$bdd=DAL_Recherche::Connex();
 			$sql='SELECT DISTINCT Lecteur FROM Livres';
 			$R=$bdd->query($sql);
 
-			Recherche::ConnexKO($bdd);
+			DAL_Recherche::ConnexKO($bdd);
 
 			return $R;
 		}
@@ -64,11 +64,11 @@ Class DAL_Recherche
 	{
 		try
 		{
-			$bdd=Recherche::Connex();
+			$bdd=DAL_Recherche::Connex();
 			$sql='SELECT count( 1 ) AS count FROM Livres WHERE genre = :genre';
 			$R=$bdd->prepare($sql);
 			$R->execute(array(':genre' => ''. $genre .''));
-			Recherche::ConnexKO($bdd);
+			DAL_Recherche::ConnexKO($bdd);
 
 			return $R;
 		}
@@ -81,10 +81,10 @@ Class DAL_Recherche
 	{
 		try
 		{
-			$bdd=Recherche::Connex();
+			$bdd=DAL_Recherche::Connex();
 			$sql='SELECT count( 1 ) AS count FROM Livres';
 			$R=$bdd->query($sql);
-			Recherche::ConnexKO($bdd);
+			DAL_Recherche::ConnexKO($bdd);
 			return $R;
 		}
 		catch (Exception $e)
@@ -94,19 +94,15 @@ Class DAL_Recherche
 	}
 
 	// Recherche toutes les rÃ©fÃ©rences BD avec comme critÃ¨re de recherche Genre='Tous'
-	function ListeBDRechercheToutLimite($debut,$limite)
+	function ListeBDRechercheToutLimite()
 	{
 		try
 		{
-			$debut=intval($debut);
-			$limite=intval($limite);
-			$bdd=Recherche::Connex();
+			$bdd=DAL_Recherche::Connex();
 			$sql='SELECT * FROM Livres LIMIT :debut, :limite';
 			$R=$bdd->prepare($sql);
-			$R->bindParam(':debut', $debut, PDO::PARAM_INT);
-			$R->bindParam(':limite', $limite, PDO::PARAM_INT);
 			$R->execute();
-			Recherche::ConnexKO($bdd);
+			DAL_Recherche::ConnexKO($bdd);
 
 			return $R;
 		}
@@ -116,26 +112,22 @@ Class DAL_Recherche
 		}
 	}
 
-	// Recherche toutes les rÃ©fÃ©rences BD avec comme critÃ¨re de recherche Genre='Tous' et Lecteur est renseignÃ©
-	function ListeBDRechercheLimite($genre,$type,$lecteur,$debut,$limite)
+	// Recherche toutes les références BD avec comme critère de recherche Genre='Tous' et Lecteur est renseigné
+	function ListeBDRechercheConditionne($genre,$type,$lecteur)
 	{
 		try
 		{
-			$debut=intval($debut);
-			$limite=intval($limite);
 			$genre='%'. $genre .'%';
 			$type='%'. $type .'%';
 			$lecteur='%'. $lecteur .'%';
-			$bdd=Recherche::Connex();
-			$sql='SELECT * FROM Livres WHERE lecteur like :lecteur OR type like :type OR genre like :genre LIMIT :debut, :limite';
+			$bdd=DAL_Recherche::Connex();
+			$sql='SELECT * FROM Livres WHERE lecteur like :lecteur OR type like :type OR genre like :genre';
 			$R=$bdd->prepare($sql);
 			$R->bindParam(':lecteur', $lecteur, PDO::PARAM_STR);
 			$R->bindParam(':type', $type, PDO::PARAM_STR);
 			$R->bindParam(':genre', $genre, PDO::PARAM_STR);
-			$R->bindParam(':debut', $debut, PDO::PARAM_INT);
-			$R->bindParam(':limite', $limite, PDO::PARAM_INT);
 			$R->execute();
-			Recherche::ConnexKO($bdd);
+			DAL_Recherche::ConnexKO($bdd);
 			return $R;
 		}
 		catch (Exception $e)
