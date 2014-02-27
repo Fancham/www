@@ -43,8 +43,7 @@
 	$page = '';
 
 	// Affichage de la liste
-	if(isset($Resultat)) {
-		$Affichage=$Resultat->fetchAll();
+	if(isset($Affichage) and count($Affichage) > 0) {
 		echo '<table class="AffichResult">';
 		echo "<tr>";
 		echo "<th>";
