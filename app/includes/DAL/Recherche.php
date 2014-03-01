@@ -5,7 +5,7 @@ Atomik::needed('CMN/Parametres');
 
 Class DAL_Recherche
 {
-	// Menu Liste Genre dans la page de sÃ©lection des BD
+	// Menu Liste Genre dans la page de sélection des BD
 	function ListeGenreBD()
 	{
 		try
@@ -23,7 +23,7 @@ Class DAL_Recherche
 		}
 	}
 
-	// Menu Liste Type dans la page de sÃ©lection des BD
+	// Menu Liste Type dans la page de sélection des BD
 	function ListeTypeBD()
 	{
 		try
@@ -41,7 +41,7 @@ Class DAL_Recherche
 		}
 	}
 
-	// Menu Liste Lecteur dans la page de sÃ©lection des BD
+	// Menu Liste Lecteur dans la page de sélection des BD
 	function ListeLecteurBD()
 	{
 		try
@@ -93,7 +93,7 @@ Class DAL_Recherche
 		}
 	}
 
-	// Recherche toutes les rÃ©fÃ©rences BD avec comme critÃ¨re de recherche Genre='Tous'
+	// Recherche toutes les références BD avec comme critère de recherche Genre='Tous'
 	function ListeBDRechercheToutLimite()
 	{
 		try
