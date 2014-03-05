@@ -3,18 +3,18 @@
 // Chargement des paramètres
 Atomik::needed('CMN/Parametres');
 
-Class DAL_Recherche
+Class DAL_Collection_BD
 {
 	// Menu Liste Genre dans la page de sélection des BD
 	function ListeGenreBD()
 	{
 		try
 		{
-			$bdd=DAL_Recherche::Connex();
+			$bdd=DAL_Collection_BD::Connex();
 			$sql='SELECT DISTINCT Genre FROM Livres';
 			$R=$bdd->query($sql);
 
-			DAL_Recherche::ConnexKO($bdd);
+			DAL_Collection_BD::ConnexKO($bdd);
 			return $R;
 		}
 		catch (Exception $e)
@@ -28,11 +28,11 @@ Class DAL_Recherche
 	{
 		try
 		{
-			$bdd=DAL_Recherche::Connex();
+			$bdd=DAL_Collection_BD::Connex();
 			$sql='SELECT DISTINCT Type FROM Livres';
 			$R=$bdd->query($sql);
 
-			DAL_Recherche::ConnexKO($bdd);
+			DAL_Collection_BD::ConnexKO($bdd);
 			return $R;
 		}
 		catch (Exception $e)
@@ -46,11 +46,11 @@ Class DAL_Recherche
 	{
 		try
 		{
-			$bdd=DAL_Recherche::Connex();
+			$bdd=DAL_Collection_BD::Connex();
 			$sql='SELECT DISTINCT Lecteur FROM Livres';
 			$R=$bdd->query($sql);
 
-			DAL_Recherche::ConnexKO($bdd);
+			DAL_Collection_BD::ConnexKO($bdd);
 
 			return $R;
 		}
@@ -64,7 +64,7 @@ Class DAL_Recherche
 	{
 		try
 		{
-			$bdd=DAL_Recherche::Connex();
+			$bdd=DAL_Collection_BD::Connex();
 			if ($genre=='Tout')
 			{
 				$sql='SELECT * FROM Livres ORDER BY Nom, \'Volumes achetés\'';
@@ -83,7 +83,7 @@ Class DAL_Recherche
 			}
 			$R->execute();
 			return $R;
-			DAL_Recherche::ConnexKO($bdd);
+			DAL_Collection_BD::ConnexKO($bdd);
 		}
 		catch (Exception $e)
 		{
