@@ -91,6 +91,24 @@ a.Lientexte:hover
 	text-decoration:none;
 }
 
+a.LienListePage:link
+{
+	color: white;
+	text-decoration:none
+}
+
+a.LienListePage:visited
+{
+	color: orange;
+	text-decoration:none;
+}
+
+a.LienListePage:hover
+{
+	color: orange;
+	text-decoration:none;
+}
+
 a.LientexteAccesPriveIci:link
 {
 	color: white;
@@ -576,11 +594,20 @@ li:hover ul.niveau2
 
 }
 
+.ListePage
+{
+	left: -200px;
+    position: relative;
+    text-align: center;
+    top: 20px;
+    width: 705px;
+}
+
 #listeGenreBD
 {
-	position: relative;
-	padding-left: 200px;
-	top: -85px;
+	padding-left: 230px;
+    position: relative;
+    top: -35px;
 }
 
 #nbPageBD
@@ -619,7 +646,7 @@ li:hover ul.niveau2
 	width: 705px;
 	position: relative;
 	top: 50px;
-	left: -175px;
+	left: -200px;
 }
 td
 {

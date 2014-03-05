@@ -60,75 +60,30 @@ Class DAL_Recherche
 		}
 	}
 
-	function ListeBDRecherche($genre)
-	{
-		try
-		{
-			$bdd=DAL_Recherche::Connex();
-			$sql='SELECT count( 1 ) AS count FROM Livres WHERE genre = :genre';
-			$R=$bdd->prepare($sql);
-			$R->execute(array(':genre' => ''. $genre .''));
-			DAL_Recherche::ConnexKO($bdd);
-
-			return $R;
-		}
-		catch (Exception $e)
-		{
-			die('Erreur:' . $e-> getMessage());
-		}
-	}
-	function ListeBDRechercheTout()
-	{
-		try
-		{
-			$bdd=DAL_Recherche::Connex();
-			$sql='SELECT count( 1 ) AS count FROM Livres';
-			$R=$bdd->query($sql);
-			DAL_Recherche::ConnexKO($bdd);
-			return $R;
-		}
-		catch (Exception $e)
-		{
-			die('Erreur:' . $e-> getMessage());
-		}
-	}
-
-	// Recherche toutes les références BD avec comme critère de recherche Genre='Tous'
-	function ListeBDRechercheToutLimite()
-	{
-		try
-		{
-			$bdd=DAL_Recherche::Connex();
-			$sql='SELECT * FROM Livres LIMIT :debut, :limite';
-			$R=$bdd->prepare($sql);
-			$R->execute();
-			DAL_Recherche::ConnexKO($bdd);
-
-			return $R;
-		}
-		catch (Exception $e)
-		{
-			die('Erreur:' . $e-> getMessage());
-		}
-	}
-
-	// Recherche toutes les références BD avec comme critère de recherche Genre='Tous' et Lecteur est renseigné
 	function ListeBDRechercheConditionne($genre,$type,$lecteur)
 	{
 		try
 		{
-			$genre='%'. $genre .'%';
-			$type='%'. $type .'%';
-			$lecteur='%'. $lecteur .'%';
 			$bdd=DAL_Recherche::Connex();
-			$sql='SELECT * FROM Livres WHERE lecteur like :lecteur OR type like :type OR genre like :genre';
-			$R=$bdd->prepare($sql);
-			$R->bindParam(':lecteur', $lecteur, PDO::PARAM_STR);
-			$R->bindParam(':type', $type, PDO::PARAM_STR);
-			$R->bindParam(':genre', $genre, PDO::PARAM_STR);
+			if ($genre=='Tout')
+			{
+				$sql='SELECT * FROM Livres ORDER BY Nom, \'Volumes achetés\'';
+				$R=$bdd->prepare($sql);
+			}
+			else 
+			{
+				$genre='%'. $genre .'%';
+				$type='%'. $type .'%';
+				$lecteur='%'. $lecteur .'%';
+				$sql='SELECT * FROM Livres WHERE lecteur like :lecteur OR type like :type OR genre like :genre ORDER BY Nom, \'Volumes achetés\'';
+				$R=$bdd->prepare($sql);
+				$R->bindParam(':lecteur', $lecteur, PDO::PARAM_STR);
+				$R->bindParam(':type', $type, PDO::PARAM_STR);
+				$R->bindParam(':genre', $genre, PDO::PARAM_STR);
+			}
 			$R->execute();
-			DAL_Recherche::ConnexKO($bdd);
 			return $R;
+			DAL_Recherche::ConnexKO($bdd);
 		}
 		catch (Exception $e)
 		{

@@ -43,6 +43,7 @@ if (isset($_POST['ListeGenreBD']) or isset($_POST['ListeType']) or isset($_POST[
     // Le resultat est il dans la session ?
     if(isset($_SESSION['resultat'])) {
         // Oui on le recupere
+        //$Affichage=$_SESSION['resultat'];
         $Affichage=$_SESSION['resultat'];
     } else {
         // Non initialise une valeur par defaut
@@ -55,12 +56,5 @@ $ReponseLecteur=$DAL_Recherche->ListeLecteurBD();
 $ReponseType=$DAL_Recherche->ListeTypeBD();
 
 $pageCourante=getPageCourante('page');
-// $contentForLayout = Atomik::render('Collection_BD', Array('Resultat'=>$Resultat, 
-                                                          // 'pageCourante'=>$pageCourante, 
-                                                          // 'ReponseBD'=>$ReponseBD,
-                                                          // 'ReponseLecteur'=>$ReponseLecteur,
-                                                          // 'ReponseType'=>$ReponseType
-                                                          // )
-                                                          // );
 
 ?>
