@@ -3,17 +3,17 @@
 // Chargement des paramètres
 Atomik::needed('CMN/ConnexionBDD');
 
-Class DAL_Collection_BD
+Class DAL_Collection_JV
 {
-	// Menu Liste Genre dans la page de sélection des BD
-	function ListeGenreBD()
+	// Menu Liste Genre dans la page de sélection des JV
+	function ListeGenreJV()
 	{
 		try
 		{
 			$ConnexionBDD=new CMN_ConnexionBDD();
 			
 			$bdd=$ConnexionBDD->Connex();
-			$sql='SELECT DISTINCT Genre FROM Livres WHERE Type NOT LIKE \'Livre\'';
+			$sql='SELECT DISTINCT Genre FROM JeuxVideos';
 			$R=$bdd->query($sql);
 
 			$ConnexionBDD->ConnexKO($bdd);
@@ -25,15 +25,15 @@ Class DAL_Collection_BD
 		}
 	}
 
-	// Menu Liste Type dans la page de sélection des BD
-	function ListeTypeBD()
+	// Menu Liste Type dans la page de sélection des JV
+	function ListeConsoleJV()
 	{
 		try
 		{
 			$ConnexionBDD=new CMN_ConnexionBDD();
 			
 			$bdd=$ConnexionBDD->Connex();
-			$sql='SELECT DISTINCT Type FROM Livres WHERE Type NOT LIKE \'Livre\'';
+			$sql='SELECT DISTINCT Console FROM JeuxVideos';
 			$R=$bdd->query($sql);
 
 			$ConnexionBDD->ConnexKO($bdd);
@@ -45,15 +45,15 @@ Class DAL_Collection_BD
 		}
 	}
 
-	// Menu Liste Lecteur dans la page de sélection des BD
-	function ListeLecteurBD()
+	// Menu Liste Lecteur dans la page de sélection des JV
+	function ListeJoueurJV()
 	{
 		try
 		{
 			$ConnexionBDD=new CMN_ConnexionBDD();
 			
 			$bdd=$ConnexionBDD->Connex();
-			$sql='SELECT DISTINCT Lecteur FROM Livres WHERE Type NOT LIKE \'Livre\'';
+			$sql='SELECT DISTINCT Joueur FROM JeuxVideos';
 			$R=$bdd->query($sql);
 
 			$ConnexionBDD->ConnexKO($bdd);
@@ -66,7 +66,7 @@ Class DAL_Collection_BD
 		}
 	}
 
-	function ListeBDRechercheConditionne($genre,$type,$lecteur)
+	function ListeJVRechercheConditionne($genre,$console,$lecteur)
 	{
 		try
 		{
@@ -75,7 +75,7 @@ Class DAL_Collection_BD
 			$bdd=$ConnexionBDD->Connex();
 			if ($genre=='Tout')
 			{
-				$sql='SELECT * FROM Livres WHERE Type NOT LIKE \'Livre\' ORDER BY Nom, \'Volumes achetés\'';
+				$sql='SELECT * FROM JeuxVideos ORDER BY Console, Titre';
 				$R=$bdd->prepare($sql);
 			}
 			else 
@@ -83,10 +83,10 @@ Class DAL_Collection_BD
 				$genre='%'. $genre .'%';
 				$type='%'. $type .'%';
 				$lecteur='%'. $lecteur .'%';
-				$sql='SELECT * FROM Livres WHERE lecteur like :lecteur OR type like :type OR genre like :genre WHERE Type NOT LIKE \'Livre\' ORDER BY Nom, \'Volumes achetés\'';
+				$sql='SELECT * FROM JV WHERE lecteur like :lecteur OR console like :console OR genre like :genre BY Console, Titre';
 				$R=$bdd->prepare($sql);
 				$R->bindParam(':lecteur', $lecteur, PDO::PARAM_STR);
-				$R->bindParam(':type', $type, PDO::PARAM_STR);
+				$R->bindParam(':console', $console, PDO::PARAM_STR);
 				$R->bindParam(':genre', $genre, PDO::PARAM_STR);
 			}
 			$R->execute();

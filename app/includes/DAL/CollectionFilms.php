@@ -3,17 +3,17 @@
 // Chargement des paramètres
 Atomik::needed('CMN/ConnexionBDD');
 
-Class DAL_Collection_BD
+Class DAL_Collection_Films
 {
-	// Menu Liste Genre dans la page de sélection des BD
-	function ListeGenreBD()
+	// Menu Liste Genre dans la page de sélection des films
+	function ListeGenreFilms()
 	{
 		try
 		{
 			$ConnexionBDD=new CMN_ConnexionBDD();
 			
 			$bdd=$ConnexionBDD->Connex();
-			$sql='SELECT DISTINCT Genre FROM Livres WHERE Type NOT LIKE \'Livre\'';
+			$sql='SELECT DISTINCT Genre FROM Films';
 			$R=$bdd->query($sql);
 
 			$ConnexionBDD->ConnexKO($bdd);
@@ -25,35 +25,15 @@ Class DAL_Collection_BD
 		}
 	}
 
-	// Menu Liste Type dans la page de sélection des BD
-	function ListeTypeBD()
+	// Menu Liste Lecteur dans la page de sélection des films
+	function ListeLecteurFilms()
 	{
 		try
 		{
 			$ConnexionBDD=new CMN_ConnexionBDD();
 			
 			$bdd=$ConnexionBDD->Connex();
-			$sql='SELECT DISTINCT Type FROM Livres WHERE Type NOT LIKE \'Livre\'';
-			$R=$bdd->query($sql);
-
-			$ConnexionBDD->ConnexKO($bdd);
-			return $R;
-		}
-		catch (Exception $e)
-		{
-			die('Erreur:' . $e-> getMessage());
-		}
-	}
-
-	// Menu Liste Lecteur dans la page de sélection des BD
-	function ListeLecteurBD()
-	{
-		try
-		{
-			$ConnexionBDD=new CMN_ConnexionBDD();
-			
-			$bdd=$ConnexionBDD->Connex();
-			$sql='SELECT DISTINCT Lecteur FROM Livres WHERE Type NOT LIKE \'Livre\'';
+			$sql='SELECT DISTINCT Lecteur FROM Films';
 			$R=$bdd->query($sql);
 
 			$ConnexionBDD->ConnexKO($bdd);
@@ -66,7 +46,7 @@ Class DAL_Collection_BD
 		}
 	}
 
-	function ListeBDRechercheConditionne($genre,$type,$lecteur)
+	function ListeFilmsRechercheConditionne($genre,$lecteur)
 	{
 		try
 		{
@@ -75,7 +55,7 @@ Class DAL_Collection_BD
 			$bdd=$ConnexionBDD->Connex();
 			if ($genre=='Tout')
 			{
-				$sql='SELECT * FROM Livres WHERE Type NOT LIKE \'Livre\' ORDER BY Nom, \'Volumes achetés\'';
+				$sql='SELECT * FROM Films ORDER BY Genre, Titre';
 				$R=$bdd->prepare($sql);
 			}
 			else 
@@ -83,10 +63,9 @@ Class DAL_Collection_BD
 				$genre='%'. $genre .'%';
 				$type='%'. $type .'%';
 				$lecteur='%'. $lecteur .'%';
-				$sql='SELECT * FROM Livres WHERE lecteur like :lecteur OR type like :type OR genre like :genre WHERE Type NOT LIKE \'Livre\' ORDER BY Nom, \'Volumes achetés\'';
+				$sql='SELECT * FROM Films WHERE lecteur like :lecteur OR genre like :genre ORDER BY Genre, Titre';
 				$R=$bdd->prepare($sql);
 				$R->bindParam(':lecteur', $lecteur, PDO::PARAM_STR);
-				$R->bindParam(':type', $type, PDO::PARAM_STR);
 				$R->bindParam(':genre', $genre, PDO::PARAM_STR);
 			}
 			$R->execute();

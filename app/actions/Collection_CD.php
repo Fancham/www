@@ -6,32 +6,28 @@ if (!isset($_SESSION['NomPrenom']) or empty($_SESSION['NomPrenom']))
 	exit;
 }
 
-Atomik::needed('DAL/CollectionBD');
+Atomik::needed('DAL/CollectionCD');
 Atomik::needed('BL/Pagination');
 Atomik::needed('CMN/Tableau');
 
-$DAL_Collection_BD=new DAL_Collection_BD();
+$DAL_Collection_CD=new DAL_Collection_CD();
 $BL_Tableau=new CMN_Tableau();
 
-if (isset($_POST['ListeGenreBD']) or isset($_POST['ListeType']) or isset($_POST['ListeLecteur']))
+if (isset($_POST['ListeArtiste']) or isset($_POST['ListeLecteur']))
 {
 	// Un résultat etait deja en session => suppression
 	if(isset($_SESSION['resultat'])) {
 		unset($_SESSION['resultat']);
 	}
-	if (!empty($_POST['ListeGenreBD']))
+	if (!empty($_POST['ListeArtiste']))
 	{
-		$genre=$_POST['ListeGenreBD'];
-	}
-	if (!empty($_POST['ListeType']))
-	{
-		$type=$_POST['ListeType'];
+		$artiste=$_POST['ListeArtiste'];
 	}
 	if (!empty($_POST['ListeLecteur']))
 	{
 		$lecteur=$_POST['ListeLecteur'];
 	}
-	$Resultat=$DAL_Collection_BD->ListeBDRechercheConditionne($genre,$type,$lecteur);
+	$Resultat=$DAL_Collection_CD->ListeCDRechercheConditionne($artiste,$lecteur);
 
 	// Récupération du résultat de la requête
 	$Affichage=$Resultat->fetchAll();
@@ -50,9 +46,8 @@ if (isset($_POST['ListeGenreBD']) or isset($_POST['ListeType']) or isset($_POST[
 	}
 }
 
-$ReponseBD=$DAL_Collection_BD->ListeGenreBD();
-$ReponseLecteur=$DAL_Collection_BD->ListeLecteurBD();
-$ReponseType=$DAL_Collection_BD->ListeTypeBD();
+$ReponseLecteur=$DAL_Collection_CD->ListeLecteurCD();
+$ReponseArtiste=$DAL_Collection_CD->ListeArtisteCD();
 
 $pageCourante=getPageCourante('page');
 
@@ -74,14 +69,9 @@ else
 {
 	$maxLignesAffichees = 22;
 }
-$Entete=array(1 => 'Nom',
+$Entete=array(1 => 'Artiste',
 			  2 => 'Titre',
-			  3 => 'Volume',
-			  4 => 'Auteur',
-			  5 => 'Editeur',
-			  6 => 'Genre',
-			  7 => 'Type',
-			  8 => 'Lecteur' );
+			  3 => 'Lecteur' );
 			  
 $Tableau=$BL_Tableau->AffichageTableau($Entete, $Affichage, $pageCourante, $maxLignesAffichees);
 
