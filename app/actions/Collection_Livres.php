@@ -10,28 +10,28 @@ Atomik::needed('DAL/CollectionBDLivres');
 Atomik::needed('BL/Pagination');
 Atomik::needed('CMN/Tableau');
 
-$DAL_Collection_BD=new DAL_Collection_BDLivres();
+$DAL_Collection_Livres=new DAL_Collection_BDLivres();
 $BL_Tableau=new CMN_Tableau();
 
-if (isset($_POST['ListeGenreBD']) or isset($_POST['ListeType']) or isset($_POST['ListeLecteur']))
+if (isset($_POST['ListeGenreLivres']) or isset($_POST['ListeAuteur']) or isset($_POST['ListeLecteur']))
 {
 	// Un résultat etait deja en session => suppression
 	if(isset($_SESSION['resultat'])) {
 		unset($_SESSION['resultat']);
 	}
-	if (!empty($_POST['ListeGenreBD']))
+	if (!empty($_POST['ListeGenreLivres']))
 	{
-		$genre=$_POST['ListeGenreBD'];
+		$genre=$_POST['ListeGenreLivres'];
 	}
-	if (!empty($_POST['ListeType']))
+	if (!empty($_POST['ListeAuteur']))
 	{
-		$type=$_POST['ListeType'];
+		$auteur=$_POST['ListeAuteur'];
 	}
 	if (!empty($_POST['ListeLecteur']))
 	{
 		$lecteur=$_POST['ListeLecteur'];
 	}
-	$Resultat=$DAL_Collection_BD->ListeBDRechercheConditionne($genre,$type,$lecteur);
+	$Resultat=$DAL_Collection_Livres->ListeLivresRechercheConditionne($genre,$auteur,$lecteur);
 
 	// Récupération du résultat de la requête
 	$Affichage=$Resultat->fetchAll();
@@ -50,9 +50,9 @@ if (isset($_POST['ListeGenreBD']) or isset($_POST['ListeType']) or isset($_POST[
 	}
 }
 
-$ReponseBD=$DAL_Collection_BD->ListeGenreBD();
-$ReponseLecteur=$DAL_Collection_BD->ListeLecteurBD();
-$ReponseType=$DAL_Collection_BD->ListeTypeBD();
+$ReponseLivres=$DAL_Collection_Livres->ListeGenreLivres();
+$ReponseLecteur=$DAL_Collection_Livres->ListeLecteurLivres();
+$ReponseAuteur=$DAL_Collection_Livres->ListeAuteurLivres();
 
 $pageCourante=getPageCourante('page');
 
@@ -74,14 +74,12 @@ else
 {
 	$maxLignesAffichees = 22;
 }
-$Entete=array(1 => 'Nom',
-			  2 => 'Titre',
-			  3 => 'Volume',
-			  4 => 'Auteur',
-			  5 => 'Editeur',
-			  6 => 'Genre',
-			  7 => 'Type',
-			  8 => 'Lecteur' );
+$Entete=array(1 => 'Titre',
+			  2 => 'Volume',
+			  3 => 'Auteur',
+			  4 => 'Editeur',
+			  5 => 'Genre',
+			  6 => 'Lecteur' );
 			  
 $Tableau=$BL_Tableau->AffichageTableau($Entete, $Affichage, $pageCourante, $maxLignesAffichees);
 
