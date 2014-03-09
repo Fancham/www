@@ -15,7 +15,7 @@ Class DAL_Collection_BDLivres
 			$ConnexionBDD=new CMN_ConnexionBDD();
 			
 			$bdd=$ConnexionBDD->Connex();
-			$sql='SELECT DISTINCT Genre FROM Livres WHERE Type NOT LIKE \'Livre\'';
+			$sql='SELECT DISTINCT genres.Genre FROM Livres INNER JOIN Genres ON Livres.genre=Genres.Id WHERE Type NOT LIKE \'Livre\'';
 			$R=$bdd->query($sql);
 
 			$ConnexionBDD->ConnexKO($bdd);
@@ -55,7 +55,7 @@ Class DAL_Collection_BDLivres
 			$ConnexionBDD=new CMN_ConnexionBDD();
 			
 			$bdd=$ConnexionBDD->Connex();
-			$sql='SELECT DISTINCT Lecteur FROM Livres WHERE Type NOT LIKE \'Livre\'';
+			$sql='SELECT DISTINCT Lecteurs.Lecteur FROM Livres INNER JOIN Lecteurs ON Livres.Lecteur=Lecteurs.Id WHERE Type NOT LIKE \'Livre\'';
 			$R=$bdd->query($sql);
 
 			$ConnexionBDD->ConnexKO($bdd);
@@ -77,15 +77,16 @@ Class DAL_Collection_BDLivres
 			$bdd=$ConnexionBDD->Connex();
 			if ($genre=='Tout')
 			{
-				$sql='SELECT * FROM Livres WHERE Type NOT LIKE \'Livre\' ORDER BY Auteur, Genre, Nom, Titre, Volume';
+				$sql='SELECT genres.Genre, Nom, Editeur, Auteur, Titre, Volume, Type, lecteurs.Lecteur FROM Livres INNER JOIN Genres ON Livres.genre=Genres.Id INNER JOIN Lecteurs ON Livres.Lecteur=Lecteurs.Id WHERE Type NOT LIKE \'Livre\' ORDER BY Auteur, Genre, Nom, Titre, Volume';
 				$R=$bdd->prepare($sql);
+				
 			}
 			else 
 			{
 				$genre='%'. $genre .'%';
 				$type='%'. $type .'%';
 				$lecteur='%'. $lecteur .'%';
-				$sql='SELECT * FROM Livres WHERE lecteur like :lecteur OR type like :type OR genre like :genre WHERE Type NOT LIKE \'Livre\' ORDER BY Auteur, Genre, Nom, Titre, Volume';
+				$sql='SELECT genres.Genre, Nom, Editeur, Auteur, Titre, Volume, Type, lecteurs.Lecteur FROM Livres INNER JOIN Genres ON Livres.genre=Genres.Id INNER JOIN Lecteurs ON Livres.Lecteur=Lecteurs.Id WHERE Type NOT LIKE \'Livre\' and (lecteurs.lecteur like :lecteur OR type like :type OR genres.genre like :genre) ORDER BY Auteur, Genre, Nom, Titre, Volume';
 				$R=$bdd->prepare($sql);
 				$R->bindParam(':lecteur', $lecteur, PDO::PARAM_STR);
 				$R->bindParam(':type', $type, PDO::PARAM_STR);
@@ -112,7 +113,7 @@ Class DAL_Collection_BDLivres
 			$ConnexionBDD=new CMN_ConnexionBDD();
 			
 			$bdd=$ConnexionBDD->Connex();
-			$sql='SELECT DISTINCT Genre FROM Livres WHERE Type = \'Livre\'';
+			$sql='SELECT DISTINCT Genres.Genre FROM Livres INNER JOIN Genres ON Livres.genre=Genres.Id WHERE Type = \'Livre\'';
 			$R=$bdd->query($sql);
 
 			$ConnexionBDD->ConnexKO($bdd);
@@ -152,7 +153,7 @@ Class DAL_Collection_BDLivres
 			$ConnexionBDD=new CMN_ConnexionBDD();
 			
 			$bdd=$ConnexionBDD->Connex();
-			$sql='SELECT DISTINCT Lecteur FROM Livres WHERE Type = \'Livre\'';
+			$sql='SELECT DISTINCT Lecteurs.Lecteur FROM Livres INNER JOIN Lecteurs ON Livres.Lecteur=Lecteurs.Id WHERE Type = \'Livre\'';
 			$R=$bdd->query($sql);
 
 			$ConnexionBDD->ConnexKO($bdd);
@@ -174,15 +175,15 @@ Class DAL_Collection_BDLivres
 			$bdd=$ConnexionBDD->Connex();
 			if ($genre=='Tout')
 			{
-				$sql='SELECT * FROM Livres WHERE Type = \'Livre\' ORDER BY Auteur, Genre, Titre, Volume';
+				$sql='SELECT genres.Genre, Nom, Editeur, Auteur, Titre, Volume, Type, lecteurs.Lecteur FROM Livres INNER JOIN Genres ON Livres.genre=Genres.Id INNER JOIN Lecteurs ON Livres.Lecteur=Lecteurs.Id WHERE Type = \'Livre\' ORDER BY Auteur, Genre, Titre, Volume';
 				$R=$bdd->prepare($sql);
 			}
 			else 
 			{
 				$genre='%'. $genre .'%';
-				$type='%'. $type .'%';
+				$auteur='%'. $auteur .'%';
 				$lecteur='%'. $lecteur .'%';
-				$sql='SELECT * FROM Livres WHERE lecteur like :lecteur OR auteur like :auteur OR genre like :genre WHERE Type = \'Livre\' ORDER BY Auteur, Genre, Titre, Volume';
+				$sql='SELECT genres.Genre, Nom, Editeur, Auteur, Titre, Volume, Type, lecteurs.Lecteur FROM Livres INNER JOIN Genres ON Livres.genre=Genres.Id INNER JOIN Lecteurs ON Livres.Lecteur=Lecteurs.Id WHERE Type = \'Livre\' and (lecteurs.lecteur like :lecteur OR auteur like :auteur OR genres.genre like :genre) ORDER BY Auteur, Genre, Titre, Volume';
 				$R=$bdd->prepare($sql);
 				$R->bindParam(':lecteur', $lecteur, PDO::PARAM_STR);
 				$R->bindParam(':auteur', $auteur, PDO::PARAM_STR);
