@@ -36,6 +36,7 @@
 					<li class="ListeN2"><a href="<?php echo Atomik::url('Collection_Livres'); ?>" class="LienMenuN2">Collection Livres</a></li>
 					<li class="ListeN2"><a href="<?php echo Atomik::url('Collection_CD'); ?>" class="LienMenuN2">Collection de CD</a></li>
 					<li class="ListeN2"><a href="<?php echo Atomik::url('Collection_Films'); ?>" class="LienMenuN2">Collection de Films</a></li>
+					<li class="ListeN2"><a href="<?php echo Atomik::url('Collection_Series'); ?>" class="LienMenuN2">Collection de Séries</a></li>
 					<li class="ListeN2"><a href="<?php echo Atomik::url('Collection_JV'); ?>" class="LienMenuN2">Collection de Jeux Vidéos</a></li>
 				</ul>
 		</li>

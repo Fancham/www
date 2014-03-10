@@ -13,7 +13,7 @@ Class DAL_Collection_JV
 			$ConnexionBDD=new CMN_ConnexionBDD();
 			
 			$bdd=$ConnexionBDD->Connex();
-			$sql='SELECT DISTINCT Genre FROM JeuxVideos';
+			$sql='SELECT DISTINCT genres.Genre FROM JeuxVideos JV INNER JOIN Genres ON JV.genre=Genres.Id';
 			$R=$bdd->query($sql);
 
 			$ConnexionBDD->ConnexKO($bdd);
@@ -53,7 +53,7 @@ Class DAL_Collection_JV
 			$ConnexionBDD=new CMN_ConnexionBDD();
 			
 			$bdd=$ConnexionBDD->Connex();
-			$sql='SELECT DISTINCT Joueur FROM JeuxVideos';
+			$sql='SELECT DISTINCT lecteurs.Lecteur AS Joueur FROM JeuxVideos JV INNER JOIN Lecteurs ON JV.Joueur=Lecteurs.Id';
 			$R=$bdd->query($sql);
 
 			$ConnexionBDD->ConnexKO($bdd);
@@ -66,7 +66,7 @@ Class DAL_Collection_JV
 		}
 	}
 
-	function ListeJVRechercheConditionne($genre,$console,$lecteur)
+	function ListeJVRechercheConditionne($genre,$console,$joueur)
 	{
 		try
 		{
@@ -75,15 +75,15 @@ Class DAL_Collection_JV
 			$bdd=$ConnexionBDD->Connex();
 			if ($genre=='Tout')
 			{
-				$sql='SELECT * FROM JeuxVideos ORDER BY Console, Titre';
+				$sql='SELECT Titre, Console, lecteurs.Lecteur AS Joueur, Nombre, genres.Genre FROM JeuxVideos JV INNER JOIN Genres ON JV.genre=Genres.Id INNER JOIN Lecteurs ON JV.Joueur=Lecteurs.Id ORDER BY Console, Titre';
 				$R=$bdd->prepare($sql);
 			}
 			else 
 			{
 				$genre='%'. $genre .'%';
-				$type='%'. $type .'%';
-				$lecteur='%'. $lecteur .'%';
-				$sql='SELECT * FROM JV WHERE lecteur like :lecteur OR console like :console OR genre like :genre BY Console, Titre';
+				$console='%'. $console .'%';
+				$lecteur='%'. $joueur .'%';
+				$sql='SELECT Titre, Console, lecteurs.Lecteur AS Joueur, Nombre, genres.Genre FROM JeuxVideos JV INNER JOIN Genres ON JV.genre=Genres.Id INNER JOIN Lecteurs ON JV.Joueur=Lecteurs.Id WHERE lecteurs.lecteur like :lecteur OR console like :console OR genres.genre like :genre ORDER BY Console, Titre';
 				$R=$bdd->prepare($sql);
 				$R->bindParam(':lecteur', $lecteur, PDO::PARAM_STR);
 				$R->bindParam(':console', $console, PDO::PARAM_STR);

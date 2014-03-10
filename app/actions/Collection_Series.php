@@ -6,7 +6,7 @@ if (!isset($_SESSION['NomPrenom']) or empty($_SESSION['NomPrenom']))
 	exit;
 }
 
-Atomik::needed('DAL/CollectionBD');
+Atomik::needed('DAL/CollectionSeries');
 Atomik::needed('BL/Pagination');
 Atomik::needed('CMN/Tableau');
 
@@ -34,16 +34,26 @@ if (isset($_POST['ListeGenreSeries']) or isset($_POST['ListeType']) or isset($_P
 	// Stocke en session la liste récupérée
 	// /!\ Ne pas mettre en session $Resultat car l'objet est non serialisable
 	$_SESSION['resultat']=$Affichage;
-}	else {
+}	
+else if (isset($_GET['page']))
+{
 	// Le resultat est il dans la session ?
-	if(isset($_SESSION['resultat'])) {
+	if(isset($_SESSION['resultat']))
+	{
 		// Oui on le recupere
 		//$Affichage=$_SESSION['resultat'];
 		$Affichage=$_SESSION['resultat'];
-	} else {
+	}
+	else
+	{
 		// Non initialise une valeur par defaut
 		$Affichage=array();
 	}
+}
+else
+{
+	// Non initialise une valeur par defaut
+	$Affichage=array();
 }
 
 $ReponseSeries=$DAL_Collection_Series->ListeGenreSeries();
@@ -67,7 +77,7 @@ else if (count($Affichage)/$maxLignes<$pageCourante && $pageCourante<count($Affi
 }
 else
 {
-	$maxLignesAffichees = 22;
+	$maxLignesAffichees = $maxLignes;
 }
 $Entete=array(1 => 'Genre',
 			  2 => 'Titre',

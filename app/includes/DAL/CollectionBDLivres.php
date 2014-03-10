@@ -175,7 +175,7 @@ Class DAL_Collection_BDLivres
 			$bdd=$ConnexionBDD->Connex();
 			if ($genre=='Tout')
 			{
-				$sql='SELECT genres.Genre, Nom, Editeur, Auteur, Titre, Volume, Type, lecteurs.Lecteur FROM Livres INNER JOIN Genres ON Livres.genre=Genres.Id INNER JOIN Lecteurs ON Livres.Lecteur=Lecteurs.Id WHERE Type = \'Livre\' ORDER BY Auteur, Genre, Titre, Volume';
+				$sql='SELECT genres.Genre, Nom, Editeur, Auteur, Titre, Volume, Type, lecteurs.Lecteur FROM Livres INNER JOIN Genres ON Livres.genre=Genres.Id INNER JOIN Lecteurs ON Livres.Lecteur=Lecteurs.Id WHERE Type = \'Livre\' ORDER BY Auteur, genres.Genre, Titre, Volume';
 				$R=$bdd->prepare($sql);
 			}
 			else 
@@ -183,7 +183,7 @@ Class DAL_Collection_BDLivres
 				$genre='%'. $genre .'%';
 				$auteur='%'. $auteur .'%';
 				$lecteur='%'. $lecteur .'%';
-				$sql='SELECT genres.Genre, Nom, Editeur, Auteur, Titre, Volume, Type, lecteurs.Lecteur FROM Livres INNER JOIN Genres ON Livres.genre=Genres.Id INNER JOIN Lecteurs ON Livres.Lecteur=Lecteurs.Id WHERE Type = \'Livre\' and (lecteurs.lecteur like :lecteur OR auteur like :auteur OR genres.genre like :genre) ORDER BY Auteur, Genre, Titre, Volume';
+				$sql='SELECT genres.Genre, Nom, Editeur, Auteur, Titre, Volume, Type, lecteurs.Lecteur FROM Livres INNER JOIN Genres ON Livres.genre=Genres.Id INNER JOIN Lecteurs ON Livres.Lecteur=Lecteurs.Id WHERE Type = \'Livre\' and (lecteurs.lecteur like :lecteur OR auteur like :auteur OR genres.genre like :genre) ORDER BY Auteur, genres.Genre, Titre, Volume';
 				$R=$bdd->prepare($sql);
 				$R->bindParam(':lecteur', $lecteur, PDO::PARAM_STR);
 				$R->bindParam(':auteur', $auteur, PDO::PARAM_STR);

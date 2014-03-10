@@ -33,7 +33,7 @@ Class DAL_Collection_CD
 			$ConnexionBDD=new CMN_ConnexionBDD();
 			
 			$bdd=$ConnexionBDD->Connex();
-			$sql='SELECT DISTINCT Lecteur FROM CD';
+			$sql='SELECT DISTINCT lecteurs.Lecteur FROM CD INNER JOIN Lecteurs ON CD.Lecteur=Lecteurs.Id';
 			$R=$bdd->query($sql);
 
 			$ConnexionBDD->ConnexKO($bdd);
@@ -53,17 +53,16 @@ Class DAL_Collection_CD
 			$ConnexionBDD=new CMN_ConnexionBDD();
 			
 			$bdd=$ConnexionBDD->Connex();
-			if ($genre=='Tout')
+			if ($artiste=='Tout')
 			{
-				$sql='SELECT * FROM CD ORDER BY Artiste, Titre';
+				$sql='SELECT Artiste, lecteurs.Lecteur, Nombre, Titre FROM CD INNER JOIN Lecteurs ON CD.Lecteur=Lecteurs.Id ORDER BY Artiste, Titre';
 				$R=$bdd->prepare($sql);
 			}
 			else 
 			{
-				$genre='%'. $genre .'%';
-				$type='%'. $type .'%';
+				$artiste='%'. $artiste .'%';
 				$lecteur='%'. $lecteur .'%';
-				$sql='SELECT * FROM CD WHERE lecteur like :lecteur OR artiste like :artiste BY Artiste, Titre';
+				$sql='SELECT Artiste, lecteurs.Lecteur, Nombre, Titre FROM CD INNER JOIN Lecteurs ON CD.Lecteur=Lecteurs.Id WHERE lecteurs.lecteur like :lecteur OR artiste like :artiste ORDER BY Artiste, Titre';
 				$R=$bdd->prepare($sql);
 				$R->bindParam(':lecteur', $lecteur, PDO::PARAM_STR);
 				$R->bindParam(':artiste', $artiste, PDO::PARAM_STR);

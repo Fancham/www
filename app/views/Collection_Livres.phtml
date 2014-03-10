@@ -1,55 +1,68 @@
 <h1>Liste de nos Livres!</h1>
 <h2>Liste de nos Livres!</h2>
 <!-- Texte principal -->
-<p class="texte_prems">
-<p class="texte_prems">Pour rechercher les Livres que nous
-	possèdons, choisissez le type de Livre que vous recherchez dans les listes
+<p class="texte_prems">Pour rechercher les Livres que nous possèdons,
+	choisissez le type de Livre que vous recherchez dans les listes
 	déroulantes ci-contre:
-<form id="listeGenreBD"
+<form id="ListeChoixLivres"
 	action="<?php echo Atomik::url('Collection_Livres'); ?>" method="post">
-	<select name="ListeGenreLivres">
-		<option value="Vide"></option>
-		<option value="Tout">Tout</option>
-		<?php
-		While($Donnees=$ReponseLivres->fetch())
-		{
-			echo '<option value="'; echo $Donnees['Genre']; echo '">'; echo $Donnees['Genre']; echo '</option>';
-		}
-		$ReponseLivres->closeCursor();
-		?>
-	</select> <select name="ListeAuteur">
-		<option value="Vide"></option>
-		<?php
-		While($Donnees=$ReponseAuteur->fetch())
-		{
-			echo '<option value="'; echo $Donnees['Auteur']; echo '">'; echo $Donnees['Auteur']; echo '</option>';
-		}
-		$ReponseAuteur->closeCursor();
-		?>
-	</select> <select name="ListeLecteur">
-		<option value="Vide"></option>
-		<?php
-		While($Donnees=$ReponseLecteur->fetch())
-		{
-			echo '<option value="'; echo $Donnees['Lecteur']; echo '">'; echo $Donnees['Lecteur']; echo '</option>';
-		}
-		$ReponseLecteur->closeCursor();
-		?>
-	</select> <input type="submit" value="Envoyer" />
+	<table class="AffichListes">
+		<tr>
+			<th>Genre</th>
+			<th>Auteur</th>
+			<th>Lecteur</th>
+		</tr>
+		<tr>
+			<td><select name="ListeGenreLivres">
+					<option value="Vide"></option>
+					<option value="Tout">Tout</option>
+					<?php
+					While($Donnees=$ReponseLivres->fetch())
+					{
+						echo '<option value="'; echo $Donnees['Genre']; echo '">'; echo $Donnees['Genre']; echo '</option>';
+					}
+					$ReponseLivres->closeCursor();
+					?>
+			</select></td>
+			<td><select name="ListeAuteur">
+					<option value="Vide"></option>
+					<?php
+					While($Donnees=$ReponseAuteur->fetch())
+					{
+						echo '<option value="'; echo $Donnees['Auteur']; echo '">'; echo $Donnees['Auteur']; echo '</option>';
+					}
+					$ReponseAuteur->closeCursor();
+					?>
+			</select></td>
+			<td><select name="ListeLecteur">
+					<option value="Vide"></option>
+					<?php
+					While($Donnees=$ReponseLecteur->fetch())
+					{
+						echo '<option value="'; echo $Donnees['Lecteur']; echo '">'; echo $Donnees['Lecteur']; echo '</option>';
+					}
+					$ReponseLecteur->closeCursor();
+					?>
+			</select></td>
+			<td><input type="submit" value="Envoyer" />
+			</td>
+		</tr>
+	</table>
 	<?php
-
-	
 	$page = '';
 
 	// Affichage de la liste
 	if(isset($Affichage) and count($Affichage) > 0) {
+		
+		echo '<div class="AffichResultLivres">';
 		echo $Tableau;
+		echo '</div>';
 
 		// Affichage des numéro de page
 		$page.='<p class="ListePage">';
 		for ($i=1; $i < count($Affichage)/$maxLignes+1; $i++) {
 			$page.='<a class="LienListePage" href="'.Atomik::url('Collection_Livres', Array('page' => $i)).'">';
-			
+
 			if ($i>=count($Affichage)/$maxLignes)
 			{
 				$page.=$i;

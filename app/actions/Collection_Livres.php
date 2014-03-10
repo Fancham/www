@@ -38,16 +38,26 @@ if (isset($_POST['ListeGenreLivres']) or isset($_POST['ListeAuteur']) or isset($
 	// Stocke en session la liste récupérée
 	// /!\ Ne pas mettre en session $Resultat car l'objet est non serialisable
 	$_SESSION['resultat']=$Affichage;
-}	else {
+}	
+else if (isset($_GET['page']))
+{
 	// Le resultat est il dans la session ?
-	if(isset($_SESSION['resultat'])) {
+	if(isset($_SESSION['resultat']))
+	{
 		// Oui on le recupere
 		//$Affichage=$_SESSION['resultat'];
 		$Affichage=$_SESSION['resultat'];
-	} else {
+	}
+	else
+	{
 		// Non initialise une valeur par defaut
 		$Affichage=array();
 	}
+}
+else
+{
+	// Non initialise une valeur par defaut
+	$Affichage=array();
 }
 
 $ReponseLivres=$DAL_Collection_Livres->ListeGenreLivres();
@@ -72,7 +82,7 @@ else if (count($Affichage)/$maxLignes<$pageCourante && $pageCourante<count($Affi
 }
 else
 {
-	$maxLignesAffichees = 22;
+	$maxLignesAffichees = $maxLignes;
 }
 $Entete=array(1 => 'Titre',
 			  2 => 'Volume',

@@ -1,55 +1,71 @@
 <h1>Liste de nos bandes dessinées!</h1>
 <h2>Liste de nos bandes dessinées!</h2>
 <!-- Texte principal -->
-<p class="texte_prems">
 <p class="texte_prems">Pour rechercher les bandes dessinées que nous
 	possèdons, choisissez le type de BD que vous recherchez dans les listes
 	déroulantes ci-contre:
-<form id="listeGenreBD"
+<form id="ListeChoixBD"
 	action="<?php echo Atomik::url('Collection_BD'); ?>" method="post">
-	<select name="ListeGenreBD">
-		<option value="Vide"></option>
-		<option value="Tout">Tout</option>
-		<?php
-		While($Donnees=$ReponseBD->fetch())
-		{
-			echo '<option value="'; echo $Donnees['Genre']; echo '">'; echo $Donnees['Genre']; echo '</option>';
-		}
-		$ReponseBD->closeCursor();
-		?>
-	</select> <select name="ListeLecteur">
-		<option value="Vide"></option>
-		<?php
-		While($Donnees=$ReponseLecteur->fetch())
-		{
-			echo '<option value="'; echo $Donnees['Lecteur']; echo '">'; echo $Donnees['Lecteur']; echo '</option>';
-		}
-		$ReponseLecteur->closeCursor();
-		?>
-	</select> <select name="ListeType">
-		<option value="Vide"></option>
-		<?php
-		While($Donnees=$ReponseType->fetch())
-		{
-			echo '<option value="'; echo $Donnees['Type']; echo '">'; echo $Donnees['Type']; echo '</option>';
-		}
-		$ReponseType->closeCursor();
-		?>
-	</select> <input type="submit" value="Envoyer" />
+	<table class="AffichListes">
+		<tr>
+			<th>Genre</th>
+			<th>Lecteur</th>
+			<th>Type</th>
+		</tr>
+		<tr>
+			<td><select name="ListeGenreBD">
+					<option value="Vide"></option>
+					<option value="Tout">Tout</option>
+					<?php
+					While($Donnees=$ReponseBD->fetch())
+					{
+						echo '<option value="'; echo $Donnees['Genre']; echo '">'; echo $Donnees['Genre']; echo '</option>';
+					}
+					$ReponseBD->closeCursor();
+					?>
+			</select>
+			</td>
+			<td><select name="ListeLecteur">
+					<option value="Vide"></option>
+					<?php
+					While($Donnees=$ReponseLecteur->fetch())
+					{
+						echo '<option value="'; echo $Donnees['Lecteur']; echo '">'; echo $Donnees['Lecteur']; echo '</option>';
+					}
+					$ReponseLecteur->closeCursor();
+					?>
+			</select>
+			</td>
+			<td><select name="ListeType">
+					<option value="Vide"></option>
+					<?php
+					While($Donnees=$ReponseType->fetch())
+					{
+						echo '<option value="'; echo $Donnees['Type']; echo '">'; echo $Donnees['Type']; echo '</option>';
+					}
+					$ReponseType->closeCursor();
+					?>
+			</select></td>
+			<td><input type="submit" value="Envoyer" /></td>
+		</tr>
+	</table>
 	<?php
 
-	
+
 	$page = '';
 
 	// Affichage de la liste
 	if(isset($Affichage) and count($Affichage) > 0) {
+		
+		echo '<div class="AffichResultBD">';
 		echo $Tableau;
+		echo '</div>';
 
 		// Affichage des numéro de page
 		$page.='<p class="ListePage">';
 		for ($i=1; $i < count($Affichage)/$maxLignes+1; $i++) {
 			$page.='<a class="LienListePage" href="'.Atomik::url('Collection_BD', Array('page' => $i)).'">';
-			
+
 			if ($i>=count($Affichage)/$maxLignes)
 			{
 				$page.=$i;

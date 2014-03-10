@@ -38,17 +38,28 @@ if (isset($_POST['ListeGenreBD']) or isset($_POST['ListeType']) or isset($_POST[
 	// Stocke en session la liste récupérée
 	// /!\ Ne pas mettre en session $Resultat car l'objet est non serialisable
 	$_SESSION['resultat']=$Affichage;
-}	else {
+}	
+else if (isset($_GET['page']))
+{
 	// Le resultat est il dans la session ?
-	if(isset($_SESSION['resultat'])) {
+	if(isset($_SESSION['resultat']))
+	{
 		// Oui on le recupere
 		//$Affichage=$_SESSION['resultat'];
 		$Affichage=$_SESSION['resultat'];
-	} else {
+	}
+	else
+	{
 		// Non initialise une valeur par defaut
 		$Affichage=array();
 	}
 }
+else
+{
+	// Non initialise une valeur par defaut
+	$Affichage=array();
+}
+
 
 $ReponseBD=$DAL_Collection_BD->ListeGenreBD();
 $ReponseLecteur=$DAL_Collection_BD->ListeLecteurBD();
@@ -72,17 +83,17 @@ else if (count($Affichage)/$maxLignes<$pageCourante && $pageCourante<count($Affi
 }
 else
 {
-	$maxLignesAffichees = 22;
+	$maxLignesAffichees = $maxLignes;
 }
 $Entete=array(1 => 'Nom',
-			  2 => 'Titre',
-			  3 => 'Volume',
-			  4 => 'Auteur',
-			  5 => 'Editeur',
-			  6 => 'Genre',
-			  7 => 'Type',
-			  8 => 'Lecteur' );
-			  
+2 => 'Titre',
+3 => 'Volume',
+4 => 'Auteur',
+5 => 'Editeur',
+6 => 'Genre',
+7 => 'Type',
+8 => 'Lecteur' );
+
 $Tableau=$BL_Tableau->AffichageTableau($Entete, $Affichage, $pageCourante, $maxLignesAffichees);
 
 

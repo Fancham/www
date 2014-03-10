@@ -13,7 +13,7 @@ Atomik::needed('CMN/Tableau');
 $DAL_Collection_JV=new DAL_Collection_JV();
 $BL_Tableau=new CMN_Tableau();
 
-if (isset($_POST['ListeGenreJV']) or isset($_POST['ListeConsole']) or isset($_POST['ListeLecteur']))
+if (isset($_POST['ListeGenreJV']) or isset($_POST['ListeConsole']) or isset($_POST['ListeJoueur']))
 {
 	// Un résultat etait deja en session => suppression
 	if(isset($_SESSION['resultat'])) {
@@ -27,27 +27,37 @@ if (isset($_POST['ListeGenreJV']) or isset($_POST['ListeConsole']) or isset($_PO
 	{
 		$console=$_POST['ListeConsole'];
 	}
-	if (!empty($_POST['ListeLecteur']))
+	if (!empty($_POST['ListeJoueur']))
 	{
-		$lecteur=$_POST['ListeLecteur'];
+		$joueur=$_POST['ListeJoueur'];
 	}
-	$Resultat=$DAL_Collection_JV->ListeJVRechercheConditionne($genre,$console,$lecteur);
+	$Resultat=$DAL_Collection_JV->ListeJVRechercheConditionne($genre,$console,$joueur);
 
 	// Récupération du résultat de la requête
 	$Affichage=$Resultat->fetchAll();
 	// Stocke en session la liste récupérée
 	// /!\ Ne pas mettre en session $Resultat car l'objet est non serialisable
 	$_SESSION['resultat']=$Affichage;
-}	else {
+}	
+else if (isset($_GET['page']))
+{
 	// Le resultat est il dans la session ?
-	if(isset($_SESSION['resultat'])) {
+	if(isset($_SESSION['resultat']))
+	{
 		// Oui on le recupere
 		//$Affichage=$_SESSION['resultat'];
 		$Affichage=$_SESSION['resultat'];
-	} else {
+	}
+	else
+	{
 		// Non initialise une valeur par defaut
 		$Affichage=array();
 	}
+}
+else
+{
+	// Non initialise une valeur par defaut
+	$Affichage=array();
 }
 
 $ReponseJV=$DAL_Collection_JV->ListeGenreJV();
@@ -72,7 +82,7 @@ else if (count($Affichage)/$maxLignes<$pageCourante && $pageCourante<count($Affi
 }
 else
 {
-	$maxLignesAffichees = 22;
+	$maxLignesAffichees = $maxLignes;
 }
 $Entete=array(1 => 'Genre',
 			  2 => 'Titre',

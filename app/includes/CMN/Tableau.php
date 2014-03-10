@@ -4,7 +4,7 @@ Class CMN_Tableau
 
 	function AffichageTableau($Entete, $Contenu, $pageCourante, $maxLignesAffichees)
 	{
-		$Tableau='<table class="AffichResult">';
+		$Tableau='<table>';
 		$Tableau.='<tr>';
 		//Construction de l'entête du tableau
 		for ($j=1; $j<=count($Entete); $j++)

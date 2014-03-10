@@ -13,7 +13,7 @@ Class DAL_Collection_Series
 			$ConnexionBDD=new CMN_ConnexionBDD();
 			
 			$bdd=$ConnexionBDD->Connex();
-			$sql='SELECT DISTINCT Genre FROM Series';
+			$sql='SELECT DISTINCT genres.Genre FROM Series INNER JOIN Genres ON Series.genre=Genres.Id';
 			$R=$bdd->query($sql);
 
 			$ConnexionBDD->ConnexKO($bdd);
@@ -33,7 +33,7 @@ Class DAL_Collection_Series
 			$ConnexionBDD=new CMN_ConnexionBDD();
 			
 			$bdd=$ConnexionBDD->Connex();
-			$sql='SELECT DISTINCT Lecteur FROM Series';
+			$sql='SELECT DISTINCT lecteurs.Lecteur FROM Series INNER JOIN Lecteurs ON Series.Lecteur=Lecteurs.Id';
 			$R=$bdd->query($sql);
 
 			$ConnexionBDD->ConnexKO($bdd);
@@ -55,15 +55,14 @@ Class DAL_Collection_Series
 			$bdd=$ConnexionBDD->Connex();
 			if ($genre=='Tout')
 			{
-				$sql='SELECT * FROM Series ORDER BY Genre, Titre, Saison';
+				$sql='SELECT Titre, Saison, genres.Genre, lecteurs.Lecteur, Support, Nombre FROM Series INNER JOIN Genres ON Series.genre=Genres.Id INNER JOIN Lecteurs ON Series.Lecteur=Lecteurs.Id ORDER BY genres.Genre, Titre, Saison';
 				$R=$bdd->prepare($sql);
 			}
 			else 
 			{
 				$genre='%'. $genre .'%';
-				$type='%'. $type .'%';
 				$lecteur='%'. $lecteur .'%';
-				$sql='SELECT * FROM Series WHERE lecteur like :lecteur OR genre like :genre BY Genre, Titre, Saison';
+				$sql='SELECT Titre, Saison, genres.Genre, lecteurs.Lecteur, Support, Nombre FROM Series INNER JOIN Genres ON Series.genre=Genres.Id INNER JOIN Lecteurs ON Series.Lecteur=Lecteurs.Id WHERE lecteurs.lecteur like :lecteur OR genres.genre like :genre ORDER BY genres.Genre, Titre, Saison';
 				$R=$bdd->prepare($sql);
 				$R->bindParam(':lecteur', $lecteur, PDO::PARAM_STR);
 				$R->bindParam(':genre', $genre, PDO::PARAM_STR);
