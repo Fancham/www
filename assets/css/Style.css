@@ -603,11 +603,52 @@ li:hover ul.niveau2
     width: 705px;
 }
 
-#listeGenreBD
+#ListeChoixBD, #ListeChoixLivres
 {
-	padding-left: 230px;
+	padding-left: 25%;
+	padding-right: 25%;
     position: relative;
-    top: -35px;
+    top: -10px;
+}
+
+#ListeChoixLivres
+{
+	padding-left: 20%;
+	padding-right: 20%;
+    position: relative;
+    top: -10px;
+}
+
+#ListeChoixJV
+{
+	padding-left: 25%;
+	padding-right: 25%;
+    position: relative;
+    top: -5px;
+}
+
+#ListeChoixFilms
+{
+	padding-left: 30%;
+	padding-right: 30%;
+    position: relative;
+    top: -10px;
+}
+
+#ListeChoixCD
+{
+	padding-left: 30%;
+	padding-right: 30%;
+    position: relative;
+    top: -15px;
+}
+
+#ListeChoixSeries
+{
+	padding-left: 35%;
+	padding-right: 35%;
+    position: relative;
+    top: -10px;
 }
 
 #nbPageBD
@@ -638,16 +679,67 @@ li:hover ul.niveau2
 	margin-left: 0px;
 	z-index: 905;
 }
-.AffichResult
+
+.AffichResultBD
 {
 	border-style: outset;
 	border-width: 2px;
 	border-color: #513276;
-	width: 705px;
 	position: relative;
-	top: 50px;
-	left: -200px;
+	top: 30px;
+	left: -160px;
 }
+
+.AffichResultCD
+{
+	border-style: outset;
+	border-width: 2px;
+	border-color: #513276;
+	position: relative;
+	top: 30px;
+	left: -10px;
+}
+
+.AffichResultFilms
+{
+	border-style: outset;
+	border-width: 2px;
+	border-color: #513276;
+	position: relative;
+	top: 30px;
+	left: -85px;
+}
+
+.AffichResultSeries
+{
+	border-style: outset;
+	border-width: 2px;
+	border-color: #513276;
+	position: relative;
+	top: 30px;
+	left: -25px;
+}
+
+.AffichResultJV
+{
+	border-style: outset;
+	border-width: 2px;
+	border-color: #513276;
+	position: relative;
+	top: 35px;
+	left: -60px;
+}
+
+.AffichResultLivres
+{
+	border-style: outset;
+	border-width: 2px;
+	border-color: #513276;
+	position: relative;
+	top: 30px;
+	left: -120px;
+}
+
 td
 {
 	border-collapse: collapse;
