@@ -682,7 +682,6 @@ li:hover ul.niveau2
 
 .AffichResultBD
 {
-	border-style: outset;
 	border-width: 2px;
 	border-color: #513276;
 	position: relative;
@@ -692,7 +691,6 @@ li:hover ul.niveau2
 
 .AffichResultCD
 {
-	border-style: outset;
 	border-width: 2px;
 	border-color: #513276;
 	position: relative;
@@ -702,7 +700,6 @@ li:hover ul.niveau2
 
 .AffichResultFilms
 {
-	border-style: outset;
 	border-width: 2px;
 	border-color: #513276;
 	position: relative;
@@ -712,7 +709,6 @@ li:hover ul.niveau2
 
 .AffichResultSeries
 {
-	border-style: outset;
 	border-width: 2px;
 	border-color: #513276;
 	position: relative;
@@ -722,7 +718,6 @@ li:hover ul.niveau2
 
 .AffichResultJV
 {
-	border-style: outset;
 	border-width: 2px;
 	border-color: #513276;
 	position: relative;
@@ -732,7 +727,6 @@ li:hover ul.niveau2
 
 .AffichResultLivres
 {
-	border-style: outset;
 	border-width: 2px;
 	border-color: #513276;
 	position: relative;
