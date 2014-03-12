@@ -1,44 +1,46 @@
 <h1>Liste de nos séries ou animés!</h1>
 <h2>Liste de nos séries ou animés!</h2>
 <!-- Texte principal -->
-<p class="texte_prems">Pour rechercher les séries ou animés que nous
-	possèdons, choisissez le type de séries ou animés que vous recherchez
-	dans les listes déroulantes ci-contre:
-<form id="ListeChoixSeries"
-	action="<?php echo Atomik::url('Collection_Series'); ?>" method="post">
-	<table class="AffichListes">
-		<tr>
-			<th>Genre</th>
-			<th>Spectateur</th>
-		</tr>
-		<tr>
-			<td><select name="ListeGenreSeries">
-					<option value="Vide"></option>
-					<option value="Tout">Tout</option>
-					<?php
-					While($Donnees=$ReponseSeries->fetch())
-					{
-						echo '<option value="'; echo $Donnees['Genre']; echo '">'; echo $Donnees['Genre']; echo '</option>';
-					}
-					$ReponseSeries->closeCursor();
-					?>
-			</select>
-			</td>
-			<td><select name="ListeLecteur">
-					<option value="Vide"></option>
-					<?php
-					While($Donnees=$ReponseLecteur->fetch())
-					{
-						echo '<option value="'; echo $Donnees['Lecteur']; echo '">'; echo $Donnees['Lecteur']; echo '</option>';
-					}
-					$ReponseLecteur->closeCursor();
-					?>
-			</select>
-			</td>
-			<td><input type="submit" value="Envoyer" />
-			</td>
-		</tr>
-	</table>
+<div class="texte_prems">
+	Pour rechercher les séries ou animés que nous possèdons, choisissez le
+	type de séries ou animés que vous recherchez dans les listes
+	déroulantes ci-contre:
+	<form id="ListeChoix"
+		action="<?php echo Atomik::url('Collection_Series'); ?>" method="post">
+		<table class="AffichListes">
+			<tr>
+				<th>Genre</th>
+				<th>Spectateur</th>
+			</tr>
+			<tr>
+				<td><select name="ListeGenreSeries">
+						<option value="Vide"></option>
+						<option value="Tout">Tout</option>
+						<?php
+						While($Donnees=$ReponseSeries->fetch())
+						{
+							echo '<option value="'; echo $Donnees['Genre']; echo '">'; echo $Donnees['Genre']; echo '</option>';
+						}
+						$ReponseSeries->closeCursor();
+						?>
+				</select>
+				</td>
+				<td><select name="ListeLecteur">
+						<option value="Vide"></option>
+						<?php
+						While($Donnees=$ReponseLecteur->fetch())
+						{
+							echo '<option value="'; echo $Donnees['Lecteur']; echo '">'; echo $Donnees['Lecteur']; echo '</option>';
+						}
+						$ReponseLecteur->closeCursor();
+						?>
+				</select>
+				</td>
+				<td><input type="submit" value="Envoyer" />
+				</td>
+			</tr>
+		</table>
+	</form>
 	<?php
 
 
@@ -46,8 +48,8 @@
 
 	// Affichage de la liste
 	if(isset($Affichage) and count($Affichage) > 0) {
-		
-		echo '<div class="AffichResultSeries">';
+
+		echo '<div class="AffichResult">';
 		echo $Tableau;
 		echo '</div>';
 
@@ -55,7 +57,7 @@
 		$page.='<p class="ListePage">';
 		for ($i=1; $i < count($Affichage)/$maxLignes+1; $i++) {
 			$page.='<a class="LienListePage" href="'.Atomik::url('Collection_Series', Array('page' => $i)).'">';
-				
+
 			if ($i>=count($Affichage)/$maxLignes)
 			{
 				$page.=$i;
@@ -73,5 +75,5 @@
 	}
 	echo $page;
 	?>
-</form>
-</p>
+
+</div>

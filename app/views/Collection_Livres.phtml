@@ -1,60 +1,61 @@
 <h1>Liste de nos Livres!</h1>
 <h2>Liste de nos Livres!</h2>
 <!-- Texte principal -->
-<p class="texte_prems">Pour rechercher les Livres que nous possèdons,
-	choisissez le type de Livre que vous recherchez dans les listes
-	déroulantes ci-contre:
-<form id="ListeChoixLivres"
-	action="<?php echo Atomik::url('Collection_Livres'); ?>" method="post">
-	<table class="AffichListes">
-		<tr>
-			<th>Genre</th>
-			<th>Auteur</th>
-			<th>Lecteur</th>
-		</tr>
-		<tr>
-			<td><select name="ListeGenreLivres">
-					<option value="Vide"></option>
-					<option value="Tout">Tout</option>
-					<?php
-					While($Donnees=$ReponseLivres->fetch())
-					{
-						echo '<option value="'; echo $Donnees['Genre']; echo '">'; echo $Donnees['Genre']; echo '</option>';
-					}
-					$ReponseLivres->closeCursor();
-					?>
-			</select></td>
-			<td><select name="ListeAuteur">
-					<option value="Vide"></option>
-					<?php
-					While($Donnees=$ReponseAuteur->fetch())
-					{
-						echo '<option value="'; echo $Donnees['Auteur']; echo '">'; echo $Donnees['Auteur']; echo '</option>';
-					}
-					$ReponseAuteur->closeCursor();
-					?>
-			</select></td>
-			<td><select name="ListeLecteur">
-					<option value="Vide"></option>
-					<?php
-					While($Donnees=$ReponseLecteur->fetch())
-					{
-						echo '<option value="'; echo $Donnees['Lecteur']; echo '">'; echo $Donnees['Lecteur']; echo '</option>';
-					}
-					$ReponseLecteur->closeCursor();
-					?>
-			</select></td>
-			<td><input type="submit" value="Envoyer" />
-			</td>
-		</tr>
-	</table>
+<div class="texte_prems">
+	Pour rechercher les Livres que nous possèdons, choisissez le type de
+	Livre que vous recherchez dans les listes déroulantes ci-contre:
+	<form id="ListeChoix"
+		action="<?php echo Atomik::url('Collection_Livres'); ?>" method="post">
+		<table class="AffichListes">
+			<tr>
+				<th>Genre</th>
+				<th>Auteur</th>
+				<th>Lecteur</th>
+			</tr>
+			<tr>
+				<td><select name="ListeGenreLivres">
+						<option value="Vide"></option>
+						<option value="Tout">Tout</option>
+						<?php
+						While($Donnees=$ReponseLivres->fetch())
+						{
+							echo '<option value="'; echo $Donnees['Genre']; echo '">'; echo $Donnees['Genre']; echo '</option>';
+						}
+						$ReponseLivres->closeCursor();
+						?>
+				</select></td>
+				<td><select name="ListeAuteur">
+						<option value="Vide"></option>
+						<?php
+						While($Donnees=$ReponseAuteur->fetch())
+						{
+							echo '<option value="'; echo $Donnees['Auteur']; echo '">'; echo $Donnees['Auteur']; echo '</option>';
+						}
+						$ReponseAuteur->closeCursor();
+						?>
+				</select></td>
+				<td><select name="ListeLecteur">
+						<option value="Vide"></option>
+						<?php
+						While($Donnees=$ReponseLecteur->fetch())
+						{
+							echo '<option value="'; echo $Donnees['Lecteur']; echo '">'; echo $Donnees['Lecteur']; echo '</option>';
+						}
+						$ReponseLecteur->closeCursor();
+						?>
+				</select></td>
+				<td><input type="submit" value="Envoyer" />
+				</td>
+			</tr>
+		</table>
+	</form>
 	<?php
 	$page = '';
 
 	// Affichage de la liste
 	if(isset($Affichage) and count($Affichage) > 0) {
-		
-		echo '<div class="AffichResultLivres">';
+
+		echo '<div class="AffichResult">';
 		echo $Tableau;
 		echo '</div>';
 
@@ -80,5 +81,5 @@
 	}
 	echo $page;
 	?>
-</form>
-</p>
+
+</div>

@@ -1,44 +1,45 @@
 <h1>Liste de nos CD!</h1>
 <h2>Liste de nos CD!</h2>
 <!-- Texte principal -->
-<p class="texte_prems">Pour rechercher les CD que nous possèdons,
-	choisissez le type de CD que vous recherchez dans les listes
-	déroulantes ci-contre:
-<form id="ListeChoixCD"
-	action="<?php echo Atomik::url('Collection_CD'); ?>" method="post">
-	<table class="AffichListes">
-		<tr>
-			<th>Artiste</th>
-			<th>Lecteur</th>
-		</tr>
-		<tr>
-			<td><select name="ListeArtiste">
-					<option value="Vide"></option>
-					<option value="Tout">Tout</option>
-					<?php
-					While($Donnees=$ReponseArtiste->fetch())
-					{
-						echo '<option value="'; echo $Donnees['Artiste']; echo '">'; echo $Donnees['Artiste']; echo '</option>';
-					}
-					$ReponseArtiste->closeCursor();
-					?>
-			</select>
-			</td>
-			<td><select name="ListeLecteur">
-					<option value="Vide"></option>
-					<?php
-					While($Donnees=$ReponseLecteur->fetch())
-					{
-						echo '<option value="'; echo $Donnees['Lecteur']; echo '">'; echo $Donnees['Lecteur']; echo '</option>';
-					}
-					$ReponseLecteur->closeCursor();
-					?>
-			</select>
-			</td>
-			<td><input type="submit" value="Envoyer" />
-			</td>
-		</tr>
-	</table>
+<div class="texte_prems">
+	Pour rechercher les CD que nous possèdons, choisissez le type de CD que
+	vous recherchez dans les listes déroulantes ci-contre:
+	<form id="ListeChoix"
+		action="<?php echo Atomik::url('Collection_CD'); ?>" method="post">
+		<table class="AffichListes">
+			<tr>
+				<th>Artiste</th>
+				<th>Lecteur</th>
+			</tr>
+			<tr>
+				<td><select name="ListeArtiste">
+						<option value="Vide"></option>
+						<option value="Tout">Tout</option>
+						<?php
+						While($Donnees=$ReponseArtiste->fetch())
+						{
+							echo '<option value="'; echo $Donnees['Artiste']; echo '">'; echo $Donnees['Artiste']; echo '</option>';
+						}
+						$ReponseArtiste->closeCursor();
+						?>
+				</select>
+				</td>
+				<td><select name="ListeLecteur">
+						<option value="Vide"></option>
+						<?php
+						While($Donnees=$ReponseLecteur->fetch())
+						{
+							echo '<option value="'; echo $Donnees['Lecteur']; echo '">'; echo $Donnees['Lecteur']; echo '</option>';
+						}
+						$ReponseLecteur->closeCursor();
+						?>
+				</select>
+				</td>
+				<td><input type="submit" value="Envoyer" />
+				</td>
+			</tr>
+		</table>
+	</form>
 	<?php
 
 
@@ -46,8 +47,8 @@
 
 	// Affichage de la liste
 	if(isset($Affichage) and count($Affichage) > 0) {
-		
-		echo '<div class="AffichResultCD">';
+
+		echo '<div class="AffichResult">';
 		echo $Tableau;
 		echo '</div>';
 
@@ -73,5 +74,4 @@
 	}
 	echo $page;
 	?>
-</form>
-</p>
+</div>

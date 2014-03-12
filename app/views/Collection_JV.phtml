@@ -1,53 +1,54 @@
 <h1>Liste de nos Jeux Vidéos!</h1>
 <h2>Liste de nos Jeux Vidéos!</h2>
 <!-- Texte principal -->
-<p class="texte_prems">Pour rechercher les jeux vidéos que nous
-	possèdons, choisissez le type de jeux que vous recherchez dans les
-	listes déroulantes ci-contre:
-<form id="ListeChoixJV"
-	action="<?php echo Atomik::url('Collection_JV'); ?>" method="post">
-	<table class="AffichListes">
-		<tr>
-			<th>Genre</th>
-			<th>Console</th>
-			<th>Joueur</th>
-		</tr>
-		<tr>
-			<td><select name="ListeGenreJV">
-					<option value="Vide"></option>
-					<option value="Tout">Tout</option>
-					<?php
-					While($Donnees=$ReponseJV->fetch())
-					{
-						echo '<option value="'; echo $Donnees['Genre']; echo '">'; echo $Donnees['Genre']; echo '</option>';
-					}
-					$ReponseJV->closeCursor();
-					?>
-			</select></td>
-			<td><select name="ListeConsole">
-					<option value="Vide"></option>
-					<?php
-					While($Donnees=$ReponseConsole->fetch())
-					{
-						echo '<option value="'; echo $Donnees['Console']; echo '">'; echo $Donnees['Console']; echo '</option>';
-					}
-					$ReponseConsole->closeCursor();
-					?>
-			</select></td>
-			<td><select name="ListeJoueur">
-					<option value="Vide"></option>
-					<?php
-					While($Donnees=$ReponseJoueur->fetch())
-					{
-						echo '<option value="'; echo $Donnees['Joueur']; echo '">'; echo $Donnees['Joueur']; echo '</option>';
-					}
-					$ReponseJoueur->closeCursor();
-					?>
-			</select></td>
-			<td><input type="submit" value="Envoyer" />
-			</td>
-		</tr>
-	</table>
+<div class="texte_prems">
+	Pour rechercher les jeux vidéos que nous possèdons, choisissez le type
+	de jeux que vous recherchez dans les listes déroulantes ci-contre:
+	<form id="ListeChoix"
+		action="<?php echo Atomik::url('Collection_JV'); ?>" method="post">
+		<table class="AffichListes">
+			<tr>
+				<th>Genre</th>
+				<th>Console</th>
+				<th>Joueur</th>
+			</tr>
+			<tr>
+				<td><select name="ListeGenreJV">
+						<option value="Vide"></option>
+						<option value="Tout">Tout</option>
+						<?php
+						While($Donnees=$ReponseJV->fetch())
+						{
+							echo '<option value="'; echo $Donnees['Genre']; echo '">'; echo $Donnees['Genre']; echo '</option>';
+						}
+						$ReponseJV->closeCursor();
+						?>
+				</select></td>
+				<td><select name="ListeConsole">
+						<option value="Vide"></option>
+						<?php
+						While($Donnees=$ReponseConsole->fetch())
+						{
+							echo '<option value="'; echo $Donnees['Console']; echo '">'; echo $Donnees['Console']; echo '</option>';
+						}
+						$ReponseConsole->closeCursor();
+						?>
+				</select></td>
+				<td><select name="ListeJoueur">
+						<option value="Vide"></option>
+						<?php
+						While($Donnees=$ReponseJoueur->fetch())
+						{
+							echo '<option value="'; echo $Donnees['Joueur']; echo '">'; echo $Donnees['Joueur']; echo '</option>';
+						}
+						$ReponseJoueur->closeCursor();
+						?>
+				</select></td>
+				<td><input type="submit" value="Envoyer" />
+				</td>
+			</tr>
+		</table>
+	</form>
 	<?php
 
 
@@ -55,8 +56,8 @@
 
 	// Affichage de la liste
 	if(isset($Affichage) and count($Affichage) > 0) {
-		
-		echo '<div class="AffichResultJV">';
+
+		echo '<div class="AffichResult">';
 		echo $Tableau;
 		echo '</div>';
 
@@ -82,5 +83,4 @@
 	}
 	echo $page;
 	?>
-</form>
-</p>
+</div>
