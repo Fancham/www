@@ -134,7 +134,7 @@ Class DAL_Collection_BDLivres
 			}
 			else if ($genre!='Vide' && $type=='Vide' && $lecteur=='Vide')
 			{
-				$lecteur='%'. $genre .'%';
+				$genre='%'. $genre .'%';
 				$sql='SELECT genres.Genre, Nom, Editeur, Auteur, Titre, Volume, Type, lecteurs.Lecteur FROM Livres INNER JOIN Genres ON Livres.genre=Genres.Id INNER JOIN Lecteurs ON Livres.Lecteur=Lecteurs.Id WHERE Type NOT LIKE \'Livre\' and (genres.genre like :genre) ORDER BY Auteur, Genre, Nom, Titre, Volume';
 				$R=$bdd->prepare($sql);
 				$R->bindParam(':genre', $genre, PDO::PARAM_STR);
