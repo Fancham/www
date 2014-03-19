@@ -62,29 +62,30 @@ $ReponseLecteur=$DAL_Collection_Films->ListeLecteurFilms();
 $pageCourante=getPageCourante('page');
 
 //$pageCourante = 0;
-$maxLignes = 30;
+$maxLignes = 16;
 
 //Si le nombre de lignes retournées par la requête est inférieur au nombre de lignes à afficher
 // alors prendre en compte uniquement le nombre de lignes retournées par la requête
 
 if (count($Affichage) < $maxLignes)
 {
-	$maxLignesAffichees = count($Affichage);
+	$maxLignesaAffichees = count($Affichage);
 }
 else if (count($Affichage)/$maxLignes<$pageCourante && $pageCourante<count($Affichage)/$maxLignes+1)
 {
-	$maxLignesAffichees = count($Affichage)-(($pageCourante-1)*$maxLignes);
+	$NbLigneAffichage=count($Affichage);
+	$NbLignePassees=(($pageCourante-1)*$maxLignes);
+	$maxLignesaAffichees=variant_sub($NbLigneAffichage,$NbLignePassees);
 }
 else
 {
-	$maxLignesAffichees = $maxLignes;
+	$maxLignesaAffichees = $maxLignes;
 }
 $Entete=array(1 => 'Genre',
 			  2 => 'Titre',
 			  3 => 'Lecteur',
 			  4 => 'Support' );
 			  
-$Tableau=$BL_Tableau->AffichageTableau($Entete, $Affichage, $pageCourante, $maxLignesAffichees);
-
+$Tableau=$BL_Tableau->AffichageTableau($Entete, $Affichage, $pageCourante, $maxLignes, $maxLignesaAffichees);
 
 ?>

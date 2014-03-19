@@ -55,14 +55,14 @@ Class DAL_Collection_Films
 			$bdd=$ConnexionBDD->Connex();
 		if ($genre=='Tout')
 			{
-				$sql='SELECT genres.Genre, lecteurs.Lecteur, Nombre, Support, Titre FROM Films INNER JOIN Genres ON Films.genre=Genres.Id INNER JOIN Lecteurs ON Films.Lecteur=Lecteurs.Id ORDER BY genres.Genre, Titre';
+				$sql='SELECT genres.Genre, lecteurs.Lecteur, Nombre, Support, Titre FROM Films INNER JOIN Genres ON Films.genre=Genres.Id INNER JOIN Lecteurs ON Films.Lecteur=Lecteurs.Id ORDER BY Titre';
 				$R=$bdd->prepare($sql);
 			}
 			else if ($genre!='Vide' && $lecteur!='Vide')
 			{
 				$genre='%'. $genre .'%';
 				$lecteur='%'. $lecteur .'%';
-				$sql='SELECT genres.Genre, lecteurs.Lecteur, Nombre, Support, Titre FROM Films INNER JOIN Genres ON Films.genre=Genres.Id INNER JOIN Lecteurs ON Films.Lecteur=Lecteurs.Id WHERE lecteurs.lecteur like :lecteur AND genres.genre like :genre ORDER BY genres.Genre, Titre';
+				$sql='SELECT genres.Genre, lecteurs.Lecteur, Nombre, Support, Titre FROM Films INNER JOIN Genres ON Films.genre=Genres.Id INNER JOIN Lecteurs ON Films.Lecteur=Lecteurs.Id WHERE lecteurs.lecteur like :lecteur AND genres.genre like :genre ORDER BY Titre';
 				$R=$bdd->prepare($sql);
 				$R->bindParam(':lecteur', $lecteur, PDO::PARAM_STR);
 				$R->bindParam(':genre', $genre, PDO::PARAM_STR);
@@ -70,14 +70,14 @@ Class DAL_Collection_Films
 			else if ($genre!='Vide' && $lecteur=='Vide')
 			{
 				$genre='%'. $genre .'%';
-				$sql='SELECT genres.Genre, lecteurs.Lecteur, Nombre, Support, Titre FROM Films INNER JOIN Genres ON Films.genre=Genres.Id INNER JOIN Lecteurs ON Films.Lecteur=Lecteurs.Id WHERE genres.genre like :genre ORDER BY genres.Genre, Titre';
+				$sql='SELECT genres.Genre, lecteurs.Lecteur, Nombre, Support, Titre FROM Films INNER JOIN Genres ON Films.genre=Genres.Id INNER JOIN Lecteurs ON Films.Lecteur=Lecteurs.Id WHERE genres.genre like :genre ORDER BY Titre';
 				$R=$bdd->prepare($sql);
 				$R->bindParam(':genre', $genre, PDO::PARAM_STR);
 			}
 			else if ($genre=='Vide' && $lecteur!='Vide')
 			{
 				$lecteur='%'. $lecteur .'%';
-				$sql='SELECT genres.Genre, lecteurs.Lecteur, Nombre, Support, Titre FROM Films INNER JOIN Genres ON Films.genre=Genres.Id INNER JOIN Lecteurs ON Films.Lecteur=Lecteurs.Id WHERE lecteurs.lecteur like :lecteur ORDER BY genres.Genre, Titre';
+				$sql='SELECT genres.Genre, lecteurs.Lecteur, Nombre, Support, Titre FROM Films INNER JOIN Genres ON Films.genre=Genres.Id INNER JOIN Lecteurs ON Films.Lecteur=Lecteurs.Id WHERE lecteurs.lecteur like :lecteur ORDER BY Titre';
 				$R=$bdd->prepare($sql);
 				$R->bindParam(':lecteur', $lecteur, PDO::PARAM_STR);
 			}

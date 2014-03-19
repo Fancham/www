@@ -75,7 +75,7 @@ Class DAL_Collection_JV
 			$bdd=$ConnexionBDD->Connex();
 			if ($genre=='Tout')
 			{
-				$sql='SELECT Titre, Console, lecteurs.Lecteur AS Joueur, Nombre, genres.Genre FROM JeuxVideos JV INNER JOIN Genres ON JV.genre=Genres.Id INNER JOIN Lecteurs ON JV.Joueur=Lecteurs.Id ORDER BY Console, Titre';
+				$sql='SELECT Titre, Console, lecteurs.Lecteur AS Joueur, Nombre, genres.Genre FROM JeuxVideos JV INNER JOIN Genres ON JV.genre=Genres.Id INNER JOIN Lecteurs ON JV.Joueur=Lecteurs.Id ORDER BY Titre';
 				$R=$bdd->prepare($sql);
 			}
 			else if ($genre!='Vide' && $console!='Vide' && $joueur!='Vide')
@@ -83,7 +83,7 @@ Class DAL_Collection_JV
 				$genre='%'. $genre .'%';
 				$console='%'. $console .'%';
 				$joueur='%'. $joueur .'%';
-				$sql='SELECT Titre, Console, lecteurs.Lecteur AS Joueur, Nombre, genres.Genre FROM JeuxVideos JV INNER JOIN Genres ON JV.genre=Genres.Id INNER JOIN Lecteurs ON JV.Joueur=Lecteurs.Id WHERE lecteurs.lecteur like :lecteur AND console like :console AND genres.genre like :genre ORDER BY Console, Titre';
+				$sql='SELECT Titre, Console, lecteurs.Lecteur AS Joueur, Nombre, genres.Genre FROM JeuxVideos JV INNER JOIN Genres ON JV.genre=Genres.Id INNER JOIN Lecteurs ON JV.Joueur=Lecteurs.Id WHERE lecteurs.lecteur like :lecteur AND console like :console AND genres.genre like :genre ORDER BY Titre';
 				$R=$bdd->prepare($sql);
 				$R->bindParam(':lecteur', $joueur, PDO::PARAM_STR);
 				$R->bindParam(':console', $console, PDO::PARAM_STR);
@@ -93,7 +93,7 @@ Class DAL_Collection_JV
 			{
 				$genre='%'. $genre .'%';
 				$console='%'. $console .'%';
-				$sql='SELECT Titre, Console, lecteurs.Lecteur AS Joueur, Nombre, genres.Genre FROM JeuxVideos JV INNER JOIN Genres ON JV.genre=Genres.Id INNER JOIN Lecteurs ON JV.Joueur=Lecteurs.Id WHERE console like :console AND genres.genre like :genre ORDER BY Console, Titre';
+				$sql='SELECT Titre, Console, lecteurs.Lecteur AS Joueur, Nombre, genres.Genre FROM JeuxVideos JV INNER JOIN Genres ON JV.genre=Genres.Id INNER JOIN Lecteurs ON JV.Joueur=Lecteurs.Id WHERE console like :console AND genres.genre like :genre ORDER BY Titre';
 				$R=$bdd->prepare($sql);
 				$R->bindParam(':console', $console, PDO::PARAM_STR);
 				$R->bindParam(':genre', $genre, PDO::PARAM_STR);
@@ -102,7 +102,7 @@ Class DAL_Collection_JV
 			{
 				$genre='%'. $genre .'%';
 				$joueur='%'. $joueur .'%';
-				$sql='SELECT Titre, Console, lecteurs.Lecteur AS Joueur, Nombre, genres.Genre FROM JeuxVideos JV INNER JOIN Genres ON JV.genre=Genres.Id INNER JOIN Lecteurs ON JV.Joueur=Lecteurs.Id WHERE lecteurs.lecteur like :lecteur AND genres.genre like :genre ORDER BY Console, Titre';
+				$sql='SELECT Titre, Console, lecteurs.Lecteur AS Joueur, Nombre, genres.Genre FROM JeuxVideos JV INNER JOIN Genres ON JV.genre=Genres.Id INNER JOIN Lecteurs ON JV.Joueur=Lecteurs.Id WHERE lecteurs.lecteur like :lecteur AND genres.genre like :genre ORDER BY Titre';
 				$R=$bdd->prepare($sql);
 				$R->bindParam(':lecteur', $joueur, PDO::PARAM_STR);
 				$R->bindParam(':genre', $genre, PDO::PARAM_STR);
@@ -111,7 +111,7 @@ Class DAL_Collection_JV
 			{
 				$console='%'. $console .'%';
 				$joueur='%'. $joueur .'%';
-				$sql='SELECT Titre, Console, lecteurs.Lecteur AS Joueur, Nombre, genres.Genre FROM JeuxVideos JV INNER JOIN Genres ON JV.genre=Genres.Id INNER JOIN Lecteurs ON JV.Joueur=Lecteurs.Id WHERE lecteurs.lecteur like :lecteur AND console like :console ORDER BY Console, Titre';
+				$sql='SELECT Titre, Console, lecteurs.Lecteur AS Joueur, Nombre, genres.Genre FROM JeuxVideos JV INNER JOIN Genres ON JV.genre=Genres.Id INNER JOIN Lecteurs ON JV.Joueur=Lecteurs.Id WHERE lecteurs.lecteur like :lecteur AND console like :console ORDER BY Titre';
 				$R=$bdd->prepare($sql);
 				$R->bindParam(':lecteur', $joueur, PDO::PARAM_STR);
 				$R->bindParam(':console', $console, PDO::PARAM_STR);
@@ -119,21 +119,21 @@ Class DAL_Collection_JV
 			else if ($genre=='Vide' && $console=='Vide' && $joueur!='Vide')
 			{
 				$joueur='%'. $joueur .'%';
-				$sql='SELECT Titre, Console, lecteurs.Lecteur AS Joueur, Nombre, genres.Genre FROM JeuxVideos JV INNER JOIN Genres ON JV.genre=Genres.Id INNER JOIN Lecteurs ON JV.Joueur=Lecteurs.Id WHERE lecteurs.lecteur like :lecteur ORDER BY Console, Titre';
+				$sql='SELECT Titre, Console, lecteurs.Lecteur AS Joueur, Nombre, genres.Genre FROM JeuxVideos JV INNER JOIN Genres ON JV.genre=Genres.Id INNER JOIN Lecteurs ON JV.Joueur=Lecteurs.Id WHERE lecteurs.lecteur like :lecteur ORDER BY Titre';
 				$R=$bdd->prepare($sql);
 				$R->bindParam(':lecteur', $joueur, PDO::PARAM_STR);
 			}
 			else if ($genre=='Vide' && $console!='Vide' && $joueur=='Vide')
 			{
 				$console='%'. $console .'%';
-				$sql='SELECT Titre, Console, lecteurs.Lecteur AS Joueur, Nombre, genres.Genre FROM JeuxVideos JV INNER JOIN Genres ON JV.genre=Genres.Id INNER JOIN Lecteurs ON JV.Joueur=Lecteurs.Id WHERE console like :console ORDER BY Console, Titre';
+				$sql='SELECT Titre, Console, lecteurs.Lecteur AS Joueur, Nombre, genres.Genre FROM JeuxVideos JV INNER JOIN Genres ON JV.genre=Genres.Id INNER JOIN Lecteurs ON JV.Joueur=Lecteurs.Id WHERE console like :console ORDER BY Titre';
 				$R=$bdd->prepare($sql);
 				$R->bindParam(':console', $console, PDO::PARAM_STR);
 			}
 			else if ($genre!='Vide' && $console=='Vide' && $joueur=='Vide')
 			{
 				$genre='%'. $genre .'%';
-				$sql='SELECT Titre, Console, lecteurs.Lecteur AS Joueur, Nombre, genres.Genre FROM JeuxVideos JV INNER JOIN Genres ON JV.genre=Genres.Id INNER JOIN Lecteurs ON JV.Joueur=Lecteurs.Id WHERE genres.genre like :genre ORDER BY Console, Titre';
+				$sql='SELECT Titre, Console, lecteurs.Lecteur AS Joueur, Nombre, genres.Genre FROM JeuxVideos JV INNER JOIN Genres ON JV.genre=Genres.Id INNER JOIN Lecteurs ON JV.Joueur=Lecteurs.Id WHERE genres.genre like :genre ORDER BY Titre';
 				$R=$bdd->prepare($sql);
 				$R->bindParam(':genre', $genre, PDO::PARAM_STR);
 			}

@@ -68,22 +68,24 @@ $ReponseType=$DAL_Collection_BD->ListeTypeBD();
 $pageCourante=getPageCourante('page');
 
 //$pageCourante = 0;
-$maxLignes = 22;
+$maxLignes = 16;
 
 //Si le nombre de lignes retournées par la requête est inférieur au nombre de lignes à afficher
 // alors prendre en compte uniquement le nombre de lignes retournées par la requête
 
 if (count($Affichage) < $maxLignes)
 {
-	$maxLignesAffichees = count($Affichage);
+	$maxLignesaAffichees = count($Affichage);
 }
 else if (count($Affichage)/$maxLignes<$pageCourante && $pageCourante<count($Affichage)/$maxLignes+1)
 {
-	$maxLignesAffichees = count($Affichage)-(($pageCourante-1)*$maxLignes);
+	$NbLigneAffichage=count($Affichage);
+	$NbLignePassees=(($pageCourante-1)*$maxLignes);
+	$maxLignesaAffichees=variant_sub($NbLigneAffichage,$NbLignePassees);
 }
 else
 {
-	$maxLignesAffichees = $maxLignes;
+	$maxLignesaAffichees = $maxLignes;
 }
 $Entete=array(1 => 'Nom',
 2 => 'Titre',
@@ -94,7 +96,7 @@ $Entete=array(1 => 'Nom',
 7 => 'Type',
 8 => 'Lecteur' );
 
-$Tableau=$BL_Tableau->AffichageTableau($Entete, $Affichage, $pageCourante, $maxLignesAffichees);
+$Tableau=$BL_Tableau->AffichageTableau($Entete, $Affichage, $pageCourante, $maxLignes, $maxLignesaAffichees);
 
 
 ?>
